@@ -20,7 +20,7 @@ import pt.estig.myfavoriteplaces.data.Place;
 public class AddPlaceActivity extends AppCompatActivity {
 
     // Request codes
-    private static final int REQUEST_IMAGE_CAPTURE = 666;
+    private static final int REQUEST_IMAGE_CAPTURE = 123;
 
     // Instance State Bundle keys
     private static final String LAT_LNG_KEY = "latlng";
