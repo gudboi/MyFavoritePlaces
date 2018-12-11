@@ -34,19 +34,19 @@ import pt.estig.myfavoriteplaces.data.Place;
 
 
     private static final String MAIN_PREFS = "main_prefs";
-    private static final String FIRST_TIME_PREF = "first_time";
     private static final String SORTING_PREF = "sorting";
     private static final String PLACE_ID = "place_id";
 
     private long user_id;
     private String username;
-    private TextView textView;
+    private TextView usernameText;
     private Intent intent;
     private LinearLayoutManager linearLayoutManager;
     private List places;
     private RecyclerView placeList;
     private Adapter placesAdapter;
     private PlaceAdapter placeAdapter;
+    private View addPlaceHint;
 
 
     @Override
@@ -54,32 +54,19 @@ import pt.estig.myfavoriteplaces.data.Place;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_places);
 
-        //this.recyclerView=findViewById(R.id.recyclerView);
 
-        //
-
-        //placesList = findViewById(R.id.);
-
-        //List<Place> places = DataBase.getInstance(this).placeDao().getAllPlaces();
-
-        //
-
-        //
 
         //this.placesAdapter.setData(places, true);
 
-        //this.user_id = getIntent().getLongExtra("USER_ID", 0);
-
-        //this.username = getIntent().getStringExtra("USERNAME");
+        this.user_id = getIntent().getLongExtra("USER_ID", 0);
+        this.username = getIntent().getStringExtra("USERNAME");
 
         //
 
-        //this.textView = findViewById(R.id.textViewPlaces);
-
-        //textView.setText(username);
+        this.usernameText = findViewById(R.id.textView_welcome);
+        usernameText.setText(username);
 
         placeList = findViewById(R.id.recyclerView);
-
         placeAdapter = new PlaceAdapter();
         linearLayoutManager = new LinearLayoutManager(this);
 
@@ -103,6 +90,10 @@ import pt.estig.myfavoriteplaces.data.Place;
         startActivity(intent);
     }
 
+    /**
+     * @param view
+     * carregar alt + enter com o cursor em cima do metodo
+     */
     public void btn_addPlaceClicked(View view){
         intent = new Intent(this, AddPlaceActivity.class);
         intent.putExtra("USER_ID", this.user_id);

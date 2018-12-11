@@ -16,4 +16,5 @@
     <string name="places_label">Places</string>
     <string name="add_place_label">Add Place</string>
     <string name="place_thumbnail">place_thumbnail</string>
+    <string name="username_txt">TextView</string>
 </resources>
