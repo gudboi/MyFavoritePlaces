@@ -24,7 +24,7 @@ public class AddPlaceActivity extends AppCompatActivity {
 
     // Instance State Bundle keys
     private static final String LAT_LNG_KEY = "latlng";
-    private static final String PHOTO_BITMAP_KEYS = "photoBytes";
+    private static final String PHOTO_BITMAP_KEY = "photoBytes";
 
     // Views
     private ImageView imageView_addPhoto;
