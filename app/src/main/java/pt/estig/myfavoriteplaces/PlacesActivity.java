@@ -1,0 +1,241 @@
+package pt.estig.myfavoriteplaces;
+
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import pt.estig.myfavoriteplaces.data.DataBase;
+import pt.estig.myfavoriteplaces.data.Place;
+
+/**
+ *  This activity is here to list all places added by us,
+ *  and for calling the AddPlacesActivity by pressing the add button,
+ *  and calling the SingularPlaceActivity by pressing in one item.
+ */
+ public class PlacesActivity extends AppCompatActivity {
+
+
+    private static final String MAIN_PREFS = "main_prefs";
+    private static final String FIRST_TIME_PREF = "first_time";
+    private static final String SORTING_PREF = "sorting";
+    private static final String PLACE_ID = "place_id";
+
+    private long user_id;
+    private String username;
+    private TextView textView;
+    private Intent intent;
+    private LinearLayoutManager linearLayoutManager;
+    private List places;
+    private RecyclerView placeList;
+    private Adapter placesAdapter;
+    private PlaceAdapter placeAdapter;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_places);
+
+        //this.recyclerView=findViewById(R.id.recyclerView);
+
+        //
+
+        //placesList = findViewById(R.id.);
+
+        //List<Place> places = DataBase.getInstance(this).placeDao().getAllPlaces();
+
+        //
+
+        //
+
+        //this.placesAdapter.setData(places, true);
+
+        //this.user_id = getIntent().getLongExtra("USER_ID", 0);
+
+        //this.username = getIntent().getStringExtra("USERNAME");
+
+        //
+
+        //this.textView = findViewById(R.id.textViewPlaces);
+
+        //textView.setText(username);
+
+        placeList = findViewById(R.id.recyclerView);
+
+        placeAdapter = new PlaceAdapter();
+        linearLayoutManager = new LinearLayoutManager(this);
+
+        placeList.setAdapter(placeAdapter);
+        placeList.setLayoutManager(linearLayoutManager);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        List<Place> places = DataBase.getInstance(this).placeDao().getAllPlaces();
+
+        boolean sortedAz = getSharedPreferences(MAIN_PREFS, Context.MODE_PRIVATE).getBoolean(SORTING_PREF, true);
+
+        placeAdapter.setData(places, sortedAz);
+        //setAddContactHintVisible(places.size() == 0); // Se o número de contactos é 0, mostramos a View com a dica para adicionar contactos
+    }
+
+    public void btn_logoutClicked(View view){
+        intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void btn_addPlaceClicked(View view){
+        intent = new Intent(this, AddPlaceActivity.class);
+        intent.putExtra("USER_ID", this.user_id);
+        startActivity(intent);
+    }
+
+    private void startSinglePlaceActivity(Place place) {
+        long id_place = place.getId_place();
+        String place_name = place.getPlace_name();
+        byte[] place_photo = place.getPhoto();
+
+
+        intent = new Intent(this, SinglePlaceActivity.class);
+        intent.putExtra("PLACE_ID", id_place);
+        intent.putExtra("PLACE_NAME", place_name);
+        intent.putExtra("PLACE_PHOTO", place_photo);
+        //intent.putExtra("USERNAME", username);
+        startActivity(intent);
+
+        //SinglePlaceActivity.start(this, place.getId_place());
+    }
+
+    class PlaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+
+        Place place;
+
+        final TextView name;
+        final ImageView photo; // Se quiserem utilizar ImageViews circulares, podem utilizar a biblioteca CircleImageView (https://github.com/hdodenhof/CircleImageView)
+
+
+
+        private PlaceViewHolder(@NonNull View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this); // também existe um Listener para clicks longos! ver #onLongClick abaixo
+            name = itemView.findViewById(R.id.textView_placeName);
+            photo = itemView.findViewById(R.id.imageView_placeImage);
+        }
+
+        private void bind(Place place) {
+            this.place = place;
+            name.setText(place.getPlace_name());
+            if(place.getPhoto() != null && place.getPhoto().length != 0) {
+                photo.setImageBitmap(bitmapFromBytes(place.getPhoto()));
+                photo.setVisibility(View.VISIBLE);
+            }
+            else {
+                photo.setVisibility(View.INVISIBLE);
+            }
+
+        }
+
+        private Bitmap bitmapFromBytes(byte[] photoBytes) {
+            ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(photoBytes);
+            Bitmap bitmap = BitmapFactory.decodeStream(arrayInputStream);
+            return bitmap;
+        }
+
+        @Override
+        public void onClick(View view) {
+            startSinglePlaceActivity(place); // um click curto, lança a Activity com as mensagens do contacto
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            //showDeleteContactDialog(contact); // um click longo, invocamos o método para apagar o contacto
+            return true; // devolvemos true se tratámos o evento
+        }
+    }
+
+    class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
+
+        private List<Place> data = new ArrayList<>();
+
+        private void setData(List<Place> data, boolean sort) {
+            this.data = data;
+            sort(sort);
+        }
+
+        private void sort(final boolean asc) {
+
+            Collections.sort(data, new Comparator<Place>() {
+                @Override
+                public int compare(Place o1, Place o2) {
+                    int sort = o1.getPlace_name().compareTo(o2.getPlace_name());
+                    if(asc) {
+                        return sort;
+                    } else {
+                        return -sort;
+                    }
+                }
+            });
+            notifyDataSetChanged();
+        }
+
+        @NonNull
+        @Override
+        public PlaceViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.place, viewGroup, false);
+            return new PlaceViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull PlaceViewHolder placeViewHolder, int i) {
+            Place place = data.get(i);
+            placeViewHolder.bind(place);
+        }
+
+        @Override
+        public int getItemCount() {
+            return data.size();
+        }
+
+        private void remove(Place place) {
+            int index = data.indexOf(place);
+            if(index != -1) {
+                data.remove(index);
+                notifyItemRemoved(index);
+            }
+        }
+
+        private void removeAll() {
+            int count = data.size();
+            if(count > 0) {
+                data.clear();
+                notifyItemRangeRemoved(0, count);
+            }
+        }
+    }
+
+    /*public void createContact(View view) {
+        CreateContactActivity.start(this);
+    }*/
+
+
+}
