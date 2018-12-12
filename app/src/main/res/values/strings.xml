@@ -17,8 +17,5 @@
     <string name="add_place_label">Add Place</string>
     <string name="place_thumbnail">place_thumbnail</string>
     <string name="username_txt">TextView</string>
-
-    <!-- activity_places.xml -->
-    <string name="no_places_hint_message">Must add something! :D</string>
-    <string name="create_place_btn_hint">Go ahead add something.</string>
+    <string name="single_place_label">Castelo de Beja</string>
 </resources>
