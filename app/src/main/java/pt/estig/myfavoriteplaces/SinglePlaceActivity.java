@@ -18,12 +18,17 @@ public class SinglePlaceActivity extends AppCompatActivity {
     public static final String PLACE_ID = "placeID";
 
     // Views
-    private TextView singlePlaceTextView;
+    private TextView singlePlaceTextViewDescription;
     private ImageView singlePlaceImageView;
+    private String place_name;
+    private String place_description;
+    private byte[] place_photo;
+
 
     public static void start(PlacesActivity placesActivity, long id_place) {
         Intent starter = new Intent(placesActivity, SinglePlaceActivity.class);
-        //starter.putExtra(PLACE_ID, id_place);
+
+        starter.putExtra(PLACE_ID, id_place);
 
         placesActivity.startActivity(starter);
     }
@@ -33,15 +38,18 @@ public class SinglePlaceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_place);
 
-        singlePlaceImageView = findViewById(R.id.imageView_placeImage);
-        singlePlaceTextView = findViewById(R.id.textView_singlePlace_name);
+        this.singlePlaceImageView = findViewById(R.id.imageView_placeImage);
+        this.singlePlaceTextViewDescription = findViewById(R.id.textView_singlePlace_description);
 
-        //É aqui
+        this.place_name = getIntent().getStringExtra("PLACE_NAME");
+        this.place_description = getIntent().getStringExtra("PLACE_DESCRIPTION");
+        this.place_photo = getIntent().getByteArrayExtra("PLACE_PHOTO");
 
-        //singlePlace_name = getIntent().getStringExtra("PLACE_NAME",0);
-        //singlePlace_photo.setImageBitmap(bitmapFromBytes(place.getPhoto()));
+        Bitmap bitmap = BitmapFactory.decodeByteArray(this.place_photo, 0, this.place_photo.length);
 
-
+        this.singlePlaceImageView.setImageBitmap(bitmap);
+        setTitle(this.place_name);
+        this.singlePlaceTextViewDescription.setText(this.place_description);
     }
 
     @Override

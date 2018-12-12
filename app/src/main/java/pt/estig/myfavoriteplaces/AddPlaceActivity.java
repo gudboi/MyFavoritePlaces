@@ -57,7 +57,8 @@ public class AddPlaceActivity extends AppCompatActivity {
 
         // Se a instance state não é null, terá alguma coisa lá guardada
         /*if(savedInstanceState != null) {
-            // idêntico aos extras dos intents (de facto os Intents guardam um Bundle mas oferecem métodos de conveniência para acesso a estes campos)
+            // idêntico aos extras dos intents (de facto os Intents guardam um Bundle mas oferecem
+            métodos de conveniência para acesso a estes campos)
             this.currentLatLng = savedInstanceState.getParcelable(LAT_LNG_KEY);
             this.contactPhotoBitmap = savedInstanceState.getParcelable(PHOTO_BITMAP_KEY);
         }*/
@@ -95,8 +96,8 @@ public class AddPlaceActivity extends AppCompatActivity {
 
     public void btnSaveClicked(View view) {
         this.user_id = getIntent().getLongExtra("USER_ID", 0);
-        this.place_name = editText_place_name.toString();
-        this.place_description = editText_place_description.toString();
+        this.place_name = editText_place_name.getText().toString();
+        this.place_description = editText_place_description.getText().toString();
 
         this.longitude = 1234.5;
         this.latitude = 5432.1;

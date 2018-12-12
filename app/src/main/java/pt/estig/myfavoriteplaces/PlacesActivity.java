@@ -54,8 +54,6 @@ import pt.estig.myfavoriteplaces.data.Place;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_places);
 
-
-
         //this.placesAdapter.setData(places, true);
 
         this.user_id = getIntent().getLongExtra("USER_ID", 0);
@@ -82,7 +80,6 @@ import pt.estig.myfavoriteplaces.data.Place;
         boolean sortedAz = getSharedPreferences(MAIN_PREFS, Context.MODE_PRIVATE).getBoolean(SORTING_PREF, true);
 
         placeAdapter.setData(places, sortedAz);
-        //setAddContactHintVisible(places.size() == 0); // Se o número de contactos é 0, mostramos a View com a dica para adicionar contactos
     }
 
     public void btn_logoutClicked(View view){
@@ -103,27 +100,22 @@ import pt.estig.myfavoriteplaces.data.Place;
     private void startSinglePlaceActivity(Place place) {
         long id_place = place.getId_place();
         String place_name = place.getPlace_name();
+        String place_description = place.getPlace_info();
         byte[] place_photo = place.getPhoto();
 
-
         intent = new Intent(this, SinglePlaceActivity.class);
-        intent.putExtra("PLACE_ID", id_place);
         intent.putExtra("PLACE_NAME", place_name);
+        intent.putExtra("PLACE_DESCRIPTION", place_description);
         intent.putExtra("PLACE_PHOTO", place_photo);
-        //intent.putExtra("USERNAME", username);
-        startActivity(intent);
 
-        //SinglePlaceActivity.start(this, place.getId_place());
+        startActivity(intent);
     }
 
     class PlaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-
         Place place;
 
         final TextView name;
-        final ImageView photo; // Se quiserem utilizar ImageViews circulares, podem utilizar a biblioteca CircleImageView (https://github.com/hdodenhof/CircleImageView)
-
-
+        final ImageView photo;
 
         private PlaceViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -165,7 +157,6 @@ import pt.estig.myfavoriteplaces.data.Place;
     }
 
     class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
-
         private List<Place> data = new ArrayList<>();
 
         private void setData(List<Place> data, boolean sort) {
@@ -174,7 +165,6 @@ import pt.estig.myfavoriteplaces.data.Place;
         }
 
         private void sort(final boolean asc) {
-
             Collections.sort(data, new Comparator<Place>() {
                 @Override
                 public int compare(Place o1, Place o2) {
@@ -223,10 +213,4 @@ import pt.estig.myfavoriteplaces.data.Place;
             }
         }
     }
-
-    /*public void createContact(View view) {
-        CreateContactActivity.start(this);
-    }*/
-
-
-}
+ }

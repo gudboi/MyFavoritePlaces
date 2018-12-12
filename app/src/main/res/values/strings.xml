@@ -17,4 +17,5 @@
     <string name="add_place_label">Add Place</string>
     <string name="place_thumbnail">place_thumbnail</string>
     <string name="username_txt">TextView</string>
+    <string name="single_place_label">Castelo de Beja</string>
 </resources>
