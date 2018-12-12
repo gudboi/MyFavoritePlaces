@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:padding="8dp">
 
-
     <TextView
         android:id="@+id/textView_placeName"
         style="@style/TextAppearance.AppCompat.Body1"

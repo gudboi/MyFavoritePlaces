@@ -25,4 +25,7 @@ public interface PlaceDao {
     @Query("SELECT * FROM place")
     List<Place> getAllPlaces();
 
+    @Query("SELECT * FROM place WHERE id_place = :user_id")
+    List<Place> getAllPlacesOfUser(long user_id);
+
 }
