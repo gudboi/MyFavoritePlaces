@@ -52,28 +52,26 @@ import pt.estig.myfavoriteplaces.data.Place;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_places);
 
-        //this.placesAdapter.setData(places, true);
-
-        this.user_id = getIntent().getLongExtra("USER_ID", 0);
-        this.username = getIntent().getStringExtra("USERNAME");
-
         this.usernameText = findViewById(R.id.textView_welcome);
         usernameText.setText(username);
-
-        placeList = findViewById(R.id.recyclerView);
-        placeAdapter = new PlaceAdapter();
-        linearLayoutManager = new LinearLayoutManager(this);
-
-        placeList.setAdapter(placeAdapter);
-        placeList.setLayoutManager(linearLayoutManager);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        //List<Place> places = DataBase.getInstance(this).placeDao().getAllPlaces();
-        //Não sei porque não cunciona!
-        List<Place> places = DataBase.getInstance(this).placeDao().getAllPlacesOfUser(getIntent().getLongExtra("USER_ID", 0));
+
+        placeList = findViewById(R.id.recyclerView);
+        placeAdapter = new PlaceAdapter();
+        linearLayoutManager = new LinearLayoutManager(this);
+
+        this.user_id = getIntent().getLongExtra("USER_ID", 0);
+        this.username = getIntent().getStringExtra("USERNAME");
+        placeList.setAdapter(placeAdapter);
+        placeList.setLayoutManager(linearLayoutManager);
+
+        List<Place> places = DataBase.getInstance(this).placeDao().getAllPlaces();
+        //Não sei porque não funciona!
+        //List<Place> places = DataBase.getInstance(this).placeDao().getAllPlacesOfUser(this.user_id);
 
         boolean sortedAz = getSharedPreferences(MAIN_PREFS, Context.MODE_PRIVATE).getBoolean(SORTING_PREF, true);
 
@@ -81,9 +79,13 @@ import pt.estig.myfavoriteplaces.data.Place;
     }
 
     public void btn_logoutClicked(View view){
-        intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        finish();
     }
+
+    public void btn_deleteClicked(Place place){
+       //DataBase.getInstance(this).placeDao().delete(place);
+    }
+
 
     /**
      * @param view
@@ -118,7 +120,7 @@ import pt.estig.myfavoriteplaces.data.Place;
         private PlaceViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this); // também existe um Listener para clicks longos! ver #onLongClick abaixo
+            itemView.setOnLongClickListener(this);
             name = itemView.findViewById(R.id.textView_placeName);
             photo = itemView.findViewById(R.id.imageView_placeImage);
         }
@@ -144,13 +146,12 @@ import pt.estig.myfavoriteplaces.data.Place;
 
         @Override
         public void onClick(View view) {
-            startSinglePlaceActivity(place); // um click curto, lança a Activity com as mensagens do contacto
+            startSinglePlaceActivity(place);
         }
 
         @Override
         public boolean onLongClick(View view) {
-            //showDeleteContactDialog(contact); // um click longo, invocamos o método para apagar o contacto
-            return true; // devolvemos true se tratámos o evento
+            return true;
         }
     }
 
