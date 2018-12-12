@@ -4,10 +4,10 @@
     <string name="usr_name">username</string>
     <string name="usr_pw" translatable="false">password</string>
     <string name="hint_user">username</string>
-    <string name="hint_pw">password</string>
+    <string name="hint_pw" translatable="false">password</string>
     <string name="btn_login">Login</string>
     <string name="btn_register">Register</string>
-    <string name="intro_text">Save your favorite places when you travel...</string>
+    <string name="intro_text">Save your favorite places when you travel</string>
     <string name="btn_logout">Logout</string>
     <string name="btn_addPlace">Add Place</string>
     <string name="hint_name">Name of place</string>
