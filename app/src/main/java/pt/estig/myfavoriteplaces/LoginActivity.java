@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import pt.estig.myfavoriteplaces.data.DataBase;
 import pt.estig.myfavoriteplaces.data.User;
+import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText usernameText;
@@ -37,8 +38,11 @@ public class LoginActivity extends AppCompatActivity {
                 long id = user.getId_user();
 
                 intent = new Intent(this, PlacesActivity.class);
-                intent.putExtra("USER_ID", id);
-                intent.putExtra("USERNAME", username);
+                /*intent.putExtra("USER_ID", id);
+                intent.putExtra("USERNAME", username);*/
+
+                PreferencesHelper.getPrefs(getApplicationContext()).edit().putString(PreferencesHelper.USERNAME,username).apply();
+                PreferencesHelper.getPrefs(getApplicationContext()).edit().putLong(PreferencesHelper.USERID,id).apply();
                 startActivity(intent);
             }
             else

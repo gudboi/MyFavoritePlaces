@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import java.util.List;
 
 import pt.estig.myfavoriteplaces.data.DataBase;
 import pt.estig.myfavoriteplaces.data.Place;
+import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
 
 /**
  *  This activity is here to list all places added by us,
@@ -32,31 +34,35 @@ import pt.estig.myfavoriteplaces.data.Place;
  */
  public class PlacesActivity extends AppCompatActivity {
 
+    //  Static
 
-    private static final String MAIN_PREFS = "main_prefs";
-    private static final String SORTING_PREF = "sorting";
+
     private long user_id;
     private String username;
+
+    //  Views
     private TextView usernameText;
-    private Intent intent;
-    private LinearLayoutManager linearLayoutManager;
-    private List places;
-    private RecyclerView placeList;
-    private Adapter placesAdapter;
-    private PlaceAdapter placeAdapter;
     private View addPlaceHint;
 
+    private Intent intent;
+
+    private LinearLayoutManager linearLayoutManager;
+    private RecyclerView placeList;
+    private PlaceAdapter placeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_places);
 
-        this.usernameText = findViewById(R.id.textView_welcome);
-        usernameText.setText(username);
+        //this.usernameText = findViewById(R.id.textView_welcome);
+        //usernameText.setText(username);
 
-        this.user_id = getIntent().getLongExtra("USER_ID", 0);
-        this.username = getIntent().getStringExtra("USERNAME");
+        //this.user_id = getIntent().getLongExtra("USER_ID", 0);
+        this.user_id = PreferencesHelper.getPrefs(getApplicationContext()).getLong(PreferencesHelper.USERID,0);
+        //this.username = getIntent().getStringExtra("USERNAME");
+        this.username = PreferencesHelper.getPrefs(getApplicationContext()).getString(PreferencesHelper.USERNAME,"");
+
     }
 
     @Override
@@ -70,11 +76,13 @@ import pt.estig.myfavoriteplaces.data.Place;
         placeList.setAdapter(placeAdapter);
         placeList.setLayoutManager(linearLayoutManager);
 
+
+
         //List<Place> places = DataBase.getInstance(this).placeDao().getAllPlaces();
         //Não sei porque não funciona!
         List<Place> places = DataBase.getInstance(this).placeDao().getAllPlacesOfUser(this.user_id);
 
-        boolean sortedAz = getSharedPreferences(MAIN_PREFS, Context.MODE_PRIVATE).getBoolean(SORTING_PREF, true);
+        boolean sortedAz = PreferencesHelper.getPrefs(getApplicationContext()).getBoolean(PreferencesHelper.SORTING_PREF, true);
 
         placeAdapter.setData(places, sortedAz);
     }
@@ -94,11 +102,12 @@ import pt.estig.myfavoriteplaces.data.Place;
      */
     public void btn_addPlaceClicked(View view){
 
+        Log.i("s",String.valueOf(this.user_id));
         AddPlaceActivity.start(this, this.user_id);
 
         //intent = new Intent(this, AddPlaceActivity.class);
-        //intent.putExtra("USER_ID", this.user_id);
-        //startActivity(intent);
+        //        //intent.putExtra("USER_ID", this.user_id);
+        //        //startActivity(intent);
     }
 
     private void startSinglePlaceActivity(Place place) {

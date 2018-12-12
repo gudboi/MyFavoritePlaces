@@ -17,6 +17,7 @@ import java.io.ByteArrayOutputStream;
 
 import pt.estig.myfavoriteplaces.data.DataBase;
 import pt.estig.myfavoriteplaces.data.Place;
+import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
 
 public class AddPlaceActivity extends AppCompatActivity {
 
@@ -28,14 +29,14 @@ public class AddPlaceActivity extends AppCompatActivity {
     private static final String PHOTO_BITMAP_KEY = "photoBytes";
 
     // Views
-    private ImageView imageView_addPhoto;
+    private ImageView addPhotoView;
     private EditText editText_place_name;
     private EditText editText_place_description;
 
     // Bitmap
     private Bitmap photo;
 
-    // invisible Data
+    // Data
     private long user_id;
     private Double latitude;
     private Double longitude;
@@ -58,6 +59,8 @@ public class AddPlaceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_place);
 
+        this.user_id = PreferencesHelper.getPrefs(getApplicationContext()).getLong();
+
         // Se a instance state não é null, terá alguma coisa lá guardada
         /*if(savedInstanceState != null) {
             // idêntico aos extras dos intents (de facto os Intents guardam um Bundle mas oferecem
@@ -73,12 +76,12 @@ public class AddPlaceActivity extends AppCompatActivity {
         }
 
 
-        imageView_addPhoto = findViewById(R.id.imageView_addPhoto);
-        editText_place_name = findViewById(R.id.place_name);
-        editText_place_description =findViewById(R.id.place_description);
+        addPhotoView = findViewById(R.id.imageView_addPhoto);
+        editText_place_name= findViewById(R.id.editText_place_name);
+        editText_place_description =findViewById(R.id.editText_place_description);
 
 
-        imageView_addPhoto.setOnLongClickListener(new View.OnLongClickListener() {
+        addPhotoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 removePhoto();
@@ -90,8 +93,8 @@ public class AddPlaceActivity extends AppCompatActivity {
 
     private void removePhoto() {
         photo = null;
-        imageView_addPhoto.setImageBitmap(null);
-        imageView_addPhoto.setVisibility(View.GONE);
+        addPhotoView.setImageBitmap(null);
+        addPhotoView.setVisibility(View.GONE);
     }
 
     public void btnCameraClicked(View view) {
@@ -131,7 +134,7 @@ public class AddPlaceActivity extends AppCompatActivity {
             //Add photo to imageview
             Bundle extras = data.getExtras();
             photo = (Bitmap) extras.get("data");
-            imageView_addPhoto.setImageBitmap(photo);
+            addPhotoView.setImageBitmap(photo);
 
             //Save photo to external
             // To do
