@@ -27,14 +27,14 @@ public class AddPlaceActivity extends AppCompatActivity {
     private static final String PHOTO_BITMAP_KEY = "photoBytes";
 
     // Views
-    private ImageView imageView_addPhoto;
-    private EditText editText_place_name;
-    private EditText editText_place_description;
+    private ImageView addPhotoView;
+    private EditText placeNameText;
+    private EditText placeDescriptionText;
 
     // Bitmap
     private Bitmap photo;
 
-    // invisible Data
+    // Data
     private long user_id;
     private Double latitude;
     private Double longitude;
@@ -61,11 +61,11 @@ public class AddPlaceActivity extends AppCompatActivity {
             this.currentLatLng = savedInstanceState.getParcelable(LAT_LNG_KEY);
             this.contactPhotoBitmap = savedInstanceState.getParcelable(PHOTO_BITMAP_KEY);
         }*/
-        imageView_addPhoto = findViewById(R.id.imageView_addPhoto);
-        editText_place_name = findViewById(R.id.place_name);
-        editText_place_description =findViewById(R.id.place_description);
+        addPhotoView = findViewById(R.id.imageView_addPhoto);
+        placeNameText = findViewById(R.id.editText_place_name);
+        placeDescriptionText =findViewById(R.id.editText_place_description);
 
-        imageView_addPhoto.setOnLongClickListener(new View.OnLongClickListener() {
+        addPhotoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 removePhoto();
@@ -75,12 +75,20 @@ public class AddPlaceActivity extends AppCompatActivity {
 
     }
 
+    /**
+     *  This removes the saved photo,
+     *  and it's called up there
+     */
     private void removePhoto() {
         photo = null;
-        imageView_addPhoto.setImageBitmap(null);
-        imageView_addPhoto.setVisibility(View.GONE);
+        addPhotoView.setImageBitmap(null);
+        addPhotoView.setVisibility(View.GONE);
     }
 
+    /**
+     *  This is for calling an intent for image capture
+     * @param view
+     */
     public void btnCameraClicked(View view) {
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -93,10 +101,15 @@ public class AddPlaceActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     *  This saves in the database all the place details,
+     *  photo included.
+     * @param view
+     */
     public void btnSaveClicked(View view) {
         this.user_id = getIntent().getLongExtra("USER_ID", 0);
-        this.place_name = editText_place_name.toString();
-        this.place_description = editText_place_description.toString();
+        place_name = placeNameText.getText().toString();
+        this.place_description = placeDescriptionText.getText().toString();
 
         this.longitude = 1234.5;
         this.latitude = 5432.1;
@@ -117,7 +130,7 @@ public class AddPlaceActivity extends AppCompatActivity {
             //Add photo to imageview
             Bundle extras = data.getExtras();
             photo = (Bitmap) extras.get("data");
-            imageView_addPhoto.setImageBitmap(photo);
+            addPhotoView.setImageBitmap(photo);
 
             //Save photo to external
             // To do
