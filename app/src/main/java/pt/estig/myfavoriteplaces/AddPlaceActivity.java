@@ -46,10 +46,11 @@ public class AddPlaceActivity extends AppCompatActivity {
     //private Marker contactMarker = null;
     //private LatLng currentLatLng = null;
 
-    public void start(Context context) {
+    public static void start(Context context, long id) {
         Intent starter = new Intent(context, AddPlaceActivity.class);
+        starter.putExtra("USER_ID", id);
         context.startActivity(starter);
-        this.user_id = getIntent().getLongExtra("USER_ID",0);
+
     }
 
     @Override
@@ -64,6 +65,14 @@ public class AddPlaceActivity extends AppCompatActivity {
             this.currentLatLng = savedInstanceState.getParcelable(LAT_LNG_KEY);
             this.contactPhotoBitmap = savedInstanceState.getParcelable(PHOTO_BITMAP_KEY);
         }*/
+
+        long id = getIntent().getLongExtra("USER_ID", 0);
+        if(id == 0) {
+            finish();
+            return;
+        }
+
+
         imageView_addPhoto = findViewById(R.id.imageView_addPhoto);
         editText_place_name = findViewById(R.id.place_name);
         editText_place_description =findViewById(R.id.place_description);
