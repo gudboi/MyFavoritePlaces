@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 
@@ -45,9 +46,10 @@ public class AddPlaceActivity extends AppCompatActivity {
     //private Marker contactMarker = null;
     //private LatLng currentLatLng = null;
 
-    public static void start(Context context) {
+    public void start(Context context) {
         Intent starter = new Intent(context, AddPlaceActivity.class);
         context.startActivity(starter);
+        this.user_id = getIntent().getLongExtra("USER_ID",0);
     }
 
     @Override
@@ -65,6 +67,7 @@ public class AddPlaceActivity extends AppCompatActivity {
         imageView_addPhoto = findViewById(R.id.imageView_addPhoto);
         editText_place_name = findViewById(R.id.place_name);
         editText_place_description =findViewById(R.id.place_description);
+
 
         imageView_addPhoto.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -95,7 +98,6 @@ public class AddPlaceActivity extends AppCompatActivity {
     }
 
     public void btnSaveClicked(View view) {
-        this.user_id = getIntent().getLongExtra("USER_ID", 0);
         this.place_name = editText_place_name.getText().toString();
         this.place_description = editText_place_description.getText().toString();
 
@@ -104,11 +106,13 @@ public class AddPlaceActivity extends AppCompatActivity {
 
         byte[] photoBytes = getBytesFromBitmap(photo);
 
-        Place place = new Place(0,this.user_id, this.place_name, this.place_description, this.longitude, this.latitude, photoBytes);
+        Place place = new Place(0,this.user_id, this.place_name, this.place_description,
+                this.longitude, this.latitude, photoBytes);
         DataBase.getInstance(this).placeDao().insert(place);
 
-        Intent intent = new Intent(this, PlacesActivity.class);
-        startActivity(intent);
+        Toast.makeText(this, "Utilizador id:" + this.user_id, Toast.LENGTH_SHORT).show();
+
+       finish();
     }
 
     @Override
