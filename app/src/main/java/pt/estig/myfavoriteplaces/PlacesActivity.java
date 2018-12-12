@@ -35,8 +35,6 @@ import pt.estig.myfavoriteplaces.data.Place;
 
     private static final String MAIN_PREFS = "main_prefs";
     private static final String SORTING_PREF = "sorting";
-    private static final String PLACE_ID = "place_id";
-
     private long user_id;
     private String username;
     private TextView usernameText;
@@ -59,8 +57,6 @@ import pt.estig.myfavoriteplaces.data.Place;
         this.user_id = getIntent().getLongExtra("USER_ID", 0);
         this.username = getIntent().getStringExtra("USERNAME");
 
-        //
-
         this.usernameText = findViewById(R.id.textView_welcome);
         usernameText.setText(username);
 
@@ -75,7 +71,9 @@ import pt.estig.myfavoriteplaces.data.Place;
     @Override
     protected void onStart() {
         super.onStart();
-        List<Place> places = DataBase.getInstance(this).placeDao().getAllPlaces();
+        //List<Place> places = DataBase.getInstance(this).placeDao().getAllPlaces();
+        //Não sei porque não cunciona!
+        List<Place> places = DataBase.getInstance(this).placeDao().getAllPlacesOfUser(getIntent().getLongExtra("USER_ID", 0));
 
         boolean sortedAz = getSharedPreferences(MAIN_PREFS, Context.MODE_PRIVATE).getBoolean(SORTING_PREF, true);
 
