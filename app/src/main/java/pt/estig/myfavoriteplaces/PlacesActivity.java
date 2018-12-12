@@ -69,9 +69,9 @@ import pt.estig.myfavoriteplaces.data.Place;
         placeList.setAdapter(placeAdapter);
         placeList.setLayoutManager(linearLayoutManager);
 
-        List<Place> places = DataBase.getInstance(this).placeDao().getAllPlaces();
+        //List<Place> places = DataBase.getInstance(this).placeDao().getAllPlaces();
         //Não sei porque não funciona!
-        //List<Place> places = DataBase.getInstance(this).placeDao().getAllPlacesOfUser(this.user_id);
+        List<Place> places = DataBase.getInstance(this).placeDao().getAllPlacesOfUser(this.user_id);
 
         boolean sortedAz = getSharedPreferences(MAIN_PREFS, Context.MODE_PRIVATE).getBoolean(SORTING_PREF, true);
 
