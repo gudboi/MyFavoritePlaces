@@ -54,6 +54,9 @@ import pt.estig.myfavoriteplaces.data.Place;
 
         this.usernameText = findViewById(R.id.textView_welcome);
         usernameText.setText(username);
+
+        this.user_id = getIntent().getLongExtra("USER_ID", 0);
+        this.username = getIntent().getStringExtra("USERNAME");
     }
 
     @Override
@@ -64,8 +67,6 @@ import pt.estig.myfavoriteplaces.data.Place;
         placeAdapter = new PlaceAdapter();
         linearLayoutManager = new LinearLayoutManager(this);
 
-        this.user_id = getIntent().getLongExtra("USER_ID", 0);
-        this.username = getIntent().getStringExtra("USERNAME");
         placeList.setAdapter(placeAdapter);
         placeList.setLayoutManager(linearLayoutManager);
 
@@ -92,9 +93,12 @@ import pt.estig.myfavoriteplaces.data.Place;
      * carregar alt + enter com o cursor em cima do metodo
      */
     public void btn_addPlaceClicked(View view){
-        intent = new Intent(this, AddPlaceActivity.class);
-        intent.putExtra("USER_ID", this.user_id);
-        startActivity(intent);
+
+        AddPlaceActivity.start(this, this.user_id);
+
+        //intent = new Intent(this, AddPlaceActivity.class);
+        //intent.putExtra("USER_ID", this.user_id);
+        //startActivity(intent);
     }
 
     private void startSinglePlaceActivity(Place place) {
