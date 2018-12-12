@@ -4,14 +4,11 @@
     <string name="usr_name">Nome de Utilizador</string>
     <string name="hint_user">Nome de Utilizador</string>
     <string name="btn_register">Registar</string>
-    <string name="intro_text">Guarde os seus locais favoritos quando viajar</string>
+    <string name="intro_text">Guarde os seus locais favoritos quando viajar...</string>
     <string name="btn_login">Entrar</string>
     <string name="btn_logout">Sair</string>
     <string name="btn_addPlace">Adicionar Local</string>
     <string name="hint_name">Nome do Local</string>
     <string name="hint_description">Descrição</string>
     <string name="btn_save">Guardar</string>
-    <string name="places_label">Locais</string>
-    <string name="add_place_label">Adicionar Local</string>
-    <string name="place_thumbnail">Foto do Local</string>
 </resources>
