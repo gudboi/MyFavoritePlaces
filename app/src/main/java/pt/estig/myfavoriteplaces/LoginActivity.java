@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 PreferencesHelper.getPrefs(getApplicationContext()).edit().putString(PreferencesHelper.USERNAME,username).apply();
                 PreferencesHelper.getPrefs(getApplicationContext()).edit().putLong(PreferencesHelper.USERID,id).apply();
+
                 startActivity(intent);
             }
             else

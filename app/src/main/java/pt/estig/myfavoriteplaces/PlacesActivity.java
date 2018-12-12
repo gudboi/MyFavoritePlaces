@@ -34,14 +34,11 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
  */
  public class PlacesActivity extends AppCompatActivity {
 
-    //  Static
-
-
     private long user_id;
-    private String username;
+    //private String username;
 
     //  Views
-    private TextView usernameText;
+    //private TextView usernameText;
     private View addPlaceHint;
 
     private Intent intent;
@@ -58,10 +55,13 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
         //this.usernameText = findViewById(R.id.textView_welcome);
         //usernameText.setText(username);
 
+        //  Get extras through intent
         //this.user_id = getIntent().getLongExtra("USER_ID", 0);
-        this.user_id = PreferencesHelper.getPrefs(getApplicationContext()).getLong(PreferencesHelper.USERID,0);
         //this.username = getIntent().getStringExtra("USERNAME");
-        this.username = PreferencesHelper.getPrefs(getApplicationContext()).getString(PreferencesHelper.USERNAME,"");
+
+        //  Get data through preferences
+        //this.username = PreferencesHelper.getPrefs(getApplicationContext()).getString(PreferencesHelper.USERNAME,"");
+        this.user_id = PreferencesHelper.getPrefs(getApplicationContext()).getLong(PreferencesHelper.USERID,0);
 
     }
 
@@ -82,27 +82,31 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
         //Lista filtrada ao user ID
         List<Place> places = DataBase.getInstance(this).placeDao().getAllPlacesOfUser(this.user_id);
 
-        boolean sortedAz = PreferencesHelper.getPrefs(getApplicationContext()).getBoolean(PreferencesHelper.SORTING_PREF, true);
+        //boolean sortedAz = PreferencesHelper.getPrefs(getApplicationContext()).getBoolean(PreferencesHelper.SORTING_PREF, true);
 
-        placeAdapter.setData(places, sortedAz);
+        // For now it's cool being hardcoded true because we didn't set the flag sortedAz to false anywhere
+        placeAdapter.setData(places,true );
     }
 
-    public void btn_logoutClicked(View view){
+    /** Triggered at the Logout button closing the activity, and getting back to Login/Reg
+     * @param view
+     */
+    public void btnLogoutClicked(View view){
         finish();
     }
 
-    public void btn_deleteClicked(Place place){
-       //DataBase.getInstance(this).placeDao().delete(place);
-    }
-
-
-    /**
-     * @param view
-     * carregar alt + enter com o cursor em cima do metodo
+    /** Triggered at the delete item
+     * @param place
      */
-    public void btn_addPlaceClicked(View view){
-        AddPlaceActivity.start(this, this.user_id);
-    }
+    public void btnDeleteClicked(Place place){ DataBase.getInstance(this).placeDao().delete(place);}
+
+
+    /** Triggered at Add Place button, moving us to the AddPlaceActivity,
+     * taking user_id in the extras, but anyway we have it in SharedPrefs
+     * @param view
+     *
+     */
+    public void btnAddPlaceClicked(View view){ AddPlaceActivity.start(this, this.user_id);}
 
     private void startSinglePlaceActivity(Place place) {
         long id_place = place.getId_place();

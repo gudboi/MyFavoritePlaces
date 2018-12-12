@@ -5,46 +5,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".PlacesActivity">
+    tools:context=".PlacesActivity"
+    tools:layout_editor_absoluteY="81dp">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="0dp"
+        android:layout_width="384dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:clipToPadding="false"
         android:paddingBottom="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/place"/>
+        app:layout_constraintBottom_toTopOf="@+id/button_addPlace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/place" />
 
-    <android.support.design.widget.FloatingActionButton
+    <Button
         android:id="@+id/button_addPlace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:onClick="btn_addPlaceClicked"
-        android:src="@drawable/ic_add_circle_black_24dp"
-        android:tint="@android:color/white"
-        app:fabSize="normal"
+        android:onClick="btnAddPlaceClicked"
+        android:text="@string/btn_addPlace"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <Button
+        android:id="@+id/button_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="btnLogoutClicked"
+        android:text="@string/btn_logout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_addPlace"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <LinearLayout
         android:id="@+id/add_place_hint_wrapper"
-        android:layout_width="0dp"
+        android:layout_width="336dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        tools:layout_editor_absoluteX="24dp"
+        tools:layout_editor_absoluteY="245dp">
 
         <TextView
             android:layout_width="wrap_content"
