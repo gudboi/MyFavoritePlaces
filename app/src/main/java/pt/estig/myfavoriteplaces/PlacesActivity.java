@@ -76,10 +76,10 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
         placeList.setAdapter(placeAdapter);
         placeList.setLayoutManager(linearLayoutManager);
 
-
-
+        //Lista todos os places:
         //List<Place> places = DataBase.getInstance(this).placeDao().getAllPlaces();
-        //Não sei porque não funciona!
+
+        //Lista filtrada ao user ID
         List<Place> places = DataBase.getInstance(this).placeDao().getAllPlacesOfUser(this.user_id);
 
         boolean sortedAz = PreferencesHelper.getPrefs(getApplicationContext()).getBoolean(PreferencesHelper.SORTING_PREF, true);
@@ -101,13 +101,7 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
      * carregar alt + enter com o cursor em cima do metodo
      */
     public void btn_addPlaceClicked(View view){
-
-        Log.i("s",String.valueOf(this.user_id));
         AddPlaceActivity.start(this, this.user_id);
-
-        //intent = new Intent(this, AddPlaceActivity.class);
-        //        //intent.putExtra("USER_ID", this.user_id);
-        //        //startActivity(intent);
     }
 
     private void startSinglePlaceActivity(Place place) {

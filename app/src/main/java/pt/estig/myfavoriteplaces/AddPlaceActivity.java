@@ -19,6 +19,8 @@ import pt.estig.myfavoriteplaces.data.DataBase;
 import pt.estig.myfavoriteplaces.data.Place;
 import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
 
+import static pt.estig.myfavoriteplaces.prefs.PreferencesHelper.USERID;
+
 public class AddPlaceActivity extends AppCompatActivity {
 
     // Request codes
@@ -59,22 +61,11 @@ public class AddPlaceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_place);
 
-        this.user_id = PreferencesHelper.getPrefs(getApplicationContext()).getLong();
-
-        // Se a instance state não é null, terá alguma coisa lá guardada
-        /*if(savedInstanceState != null) {
-            // idêntico aos extras dos intents (de facto os Intents guardam um Bundle mas oferecem
-            métodos de conveniência para acesso a estes campos)
-            this.currentLatLng = savedInstanceState.getParcelable(LAT_LNG_KEY);
-            this.contactPhotoBitmap = savedInstanceState.getParcelable(PHOTO_BITMAP_KEY);
-        }*/
-
         long id = getIntent().getLongExtra("USER_ID", 0);
         if(id == 0) {
             finish();
             return;
         }
-
 
         addPhotoView = findViewById(R.id.imageView_addPhoto);
         editText_place_name= findViewById(R.id.editText_place_name);
@@ -110,6 +101,7 @@ public class AddPlaceActivity extends AppCompatActivity {
     }
 
     public void btnSaveClicked(View view) {
+        this.user_id =  PreferencesHelper.getPrefs(getApplicationContext()).getLong(USERID, 0);
         this.place_name = editText_place_name.getText().toString();
         this.place_description = editText_place_description.getText().toString();
 
