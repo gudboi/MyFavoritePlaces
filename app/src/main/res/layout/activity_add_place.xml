@@ -30,7 +30,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="btnCameraClicked"
+            android:background="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white"
             app:srcCompat="@android:drawable/ic_menu_camera" />
+
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -63,6 +66,8 @@
         <Button
             android:id="@+id/btn_savePhoto"
             android:layout_width="match_parent"
+            android:background="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white"
             android:layout_height="wrap_content"
             android:onClick="btnSaveClicked"
             android:text="@string/btn_save" />

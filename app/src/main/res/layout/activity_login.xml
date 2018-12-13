@@ -43,13 +43,21 @@
             android:id="@+id/button_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white"
             android:onClick="btnLoginClicked"
             android:text="@string/btn_login" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="23dp" />
 
         <Button
             android:id="@+id/button_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white"
             android:onClick="btnRegisterClicked"
             android:text="@string/btn_register" />
     </LinearLayout>
