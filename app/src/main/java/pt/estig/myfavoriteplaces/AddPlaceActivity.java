@@ -3,6 +3,7 @@ package pt.estig.myfavoriteplaces;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.provider.MediaStore;
@@ -59,6 +60,8 @@ public class AddPlaceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //  Lock portrait mode
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_add_place);
 
         long id = getIntent().getLongExtra("USER_ID", 0);

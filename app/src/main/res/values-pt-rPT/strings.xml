@@ -11,4 +11,7 @@
     <string name="hint_name">Nome do Local</string>
     <string name="hint_description">Descrição</string>
     <string name="btn_save">Guardar</string>
+    <string name="delete_place_dialog_title">Warning</string>
+    <string name="delete_place_dialog_message">vsajlgakjbgçskagbksaçjgbkaçsjgbkçasgbskagbaçkss</string>
+    <string name="delete_place_afirmative">Confirmar</string>
 </resources>

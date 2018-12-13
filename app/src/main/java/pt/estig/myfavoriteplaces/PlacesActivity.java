@@ -1,10 +1,14 @@
 package pt.estig.myfavoriteplaces;
 
+import android.arch.persistence.room.Database;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,6 +54,8 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //  Lock portrait view
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_places);
 
         //this.usernameText = findViewById(R.id.textView_welcome);
@@ -98,8 +104,15 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
     /** Triggered at the delete item
      * @param place
      */
-    public void btnDeleteClicked(Place place){ DataBase.getInstance(this).placeDao().delete(place);}
+    public void btnDeleteClicked(Place place){
 
+
+        DataBase.getInstance(this).placeDao().delete(place);
+        placeAdapter.remove(place);
+        placeAdapter.notifyDataSetChanged();
+        // Ainda por fazer meter a hint quando os places sao zero, nicles, niente, nada, rien
+        //setAddPlaceHintVisible(placeAdapter.getItemCount() == 0);
+    }
 
     /** Triggered at Add Place button, moving us to the AddPlaceActivity,
      * taking user_id in the extras, but anyway we have it in SharedPrefs
@@ -108,8 +121,31 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
      */
     public void btnAddPlaceClicked(View view){ AddPlaceActivity.start(this, this.user_id);}
 
+    /*private void showDeletePlaceDialog(final Place place) {
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.delete_place_dialog_title)
+                //  Precisa de ser corrigido
+                //.setMessage(getString(R.string.delete_place_dialog_message, place.getPlace_name()))
+                .setPositiveButton(R.string.delete_place_afirmative, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        btnDeleteClicked(place);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .create();
+
+        dialog.show();
+    }*/
+
+
+    /** Triggered clicking an item at the recycleview and opening a new
+     * activity called SinglePlaceActivity, passing place data in extras
+     * @param place
+     */
     private void startSinglePlaceActivity(Place place) {
-        long id_place = place.getId_place();
+        //long id_place = place.getId_place();
         String place_name = place.getPlace_name();
         String place_description = place.getPlace_info();
         byte[] place_photo = place.getPhoto();
@@ -122,11 +158,12 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
         startActivity(intent);
     }
 
-    class PlaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public class PlaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         Place place;
 
         final TextView name;
         final ImageView photo;
+        final ImageView delete;
 
         private PlaceViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -134,6 +171,15 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
             itemView.setOnLongClickListener(this);
             name = itemView.findViewById(R.id.textView_placeName);
             photo = itemView.findViewById(R.id.imageView_placeImage);
+            delete = itemView.findViewById(R.id.deleteImageButton);
+
+            this.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    placeAdapter.delete(position);
+                }
+            });
         }
 
         private void bind(Place place) {
@@ -146,7 +192,6 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
             else {
                 photo.setVisibility(View.INVISIBLE);
             }
-
         }
 
         private Bitmap bitmapFromBytes(byte[] photoBytes) {
@@ -169,10 +214,17 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
     class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
         private List<Place> data = new ArrayList<>();
 
-        private void setData(List<Place> data, boolean sort) {
-            this.data = data;
-            sort(sort);
+        public void delete(int position) {
+            Place place = data.get(position);
+            DataBase.getInstance(PlacesActivity.this).placeDao().delete(place);
+            data.remove(position);
+            notifyItemRemoved(position);
         }
+
+            private void setData(List<Place> data, boolean sort) {
+                this.data = data;
+                sort(sort);
+            }
 
         private void sort(final boolean asc) {
             Collections.sort(data, new Comparator<Place>() {
