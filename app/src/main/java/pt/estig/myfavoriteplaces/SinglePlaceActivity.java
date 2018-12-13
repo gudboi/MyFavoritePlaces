@@ -22,9 +22,17 @@ public class SinglePlaceActivity extends AppCompatActivity {
     // Views
     private TextView singlePlaceTextViewDescription;
     private ImageView singlePlaceImageView;
+    private TextView singlePlaceTextViewLat;
+    private TextView singlePlaceTextViewLng;
+
+    //  Data
     private String place_name;
     private String place_description;
+    private Double place_lat;
+    private Double place_lng;
     private byte[] place_photo;
+    private String place_latitude;
+    private String place_longitude;
 
 
     public static void start(PlacesActivity placesActivity, long id_place) {
@@ -44,16 +52,25 @@ public class SinglePlaceActivity extends AppCompatActivity {
 
         this.singlePlaceImageView = findViewById(R.id.imageView_placeImage);
         this.singlePlaceTextViewDescription = findViewById(R.id.textView_singlePlace_description);
+        this.singlePlaceTextViewLat = findViewById(R.id.textView_singlePlace_lat);
+        this.singlePlaceTextViewLng = findViewById(R.id.textView_singlePlace_lng);
 
         this.place_name = getIntent().getStringExtra("PLACE_NAME");
         this.place_description = getIntent().getStringExtra("PLACE_DESCRIPTION");
         this.place_photo = getIntent().getByteArrayExtra("PLACE_PHOTO");
+        this.place_lat = getIntent().getDoubleExtra("PLACE_LAT",0);
+        this.place_lng = getIntent().getDoubleExtra("PLACE_LNG",0);
 
+        place_latitude = String.valueOf(place_lat);
+        place_longitude = String.valueOf(place_lng);
         Bitmap bitmap = BitmapFactory.decodeByteArray(this.place_photo, 0, this.place_photo.length);
 
         this.singlePlaceImageView.setImageBitmap(bitmap);
         setTitle(this.place_name);
         this.singlePlaceTextViewDescription.setText(this.place_description);
+        this.singlePlaceTextViewLat.setText(this.place_latitude);
+        this.singlePlaceTextViewLng.setText(this.place_longitude);
+
     }
 
     @Override

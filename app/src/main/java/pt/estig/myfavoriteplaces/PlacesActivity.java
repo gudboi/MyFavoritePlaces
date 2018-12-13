@@ -148,12 +148,17 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
         //long id_place = place.getId_place();
         String place_name = place.getPlace_name();
         String place_description = place.getPlace_info();
+        Double place_lat = place.getLatitude();
+        Double place_lng = place.getLongitude();
         byte[] place_photo = place.getPhoto();
 
         intent = new Intent(this, SinglePlaceActivity.class);
         intent.putExtra("PLACE_NAME", place_name);
         intent.putExtra("PLACE_DESCRIPTION", place_description);
         intent.putExtra("PLACE_PHOTO", place_photo);
+        intent.putExtra("PLACE_LNG", place_lng);
+        intent.putExtra("PLACE_LAT", place_lat);
+
 
         startActivity(intent);
     }

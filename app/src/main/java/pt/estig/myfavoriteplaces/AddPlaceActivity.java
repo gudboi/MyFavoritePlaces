@@ -122,53 +122,15 @@ public class AddPlaceActivity extends AppCompatActivity {
 
         byte[] photoBytes = getBytesFromBitmap(photo);
 
-        //  coordinates try
-        Geocoder geocoder;
-        String bestProvider;
-        List<Address> user = null;
-        double lat = 0;
-        double lng = 0;
-
-        LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-
-        Criteria criteria = new Criteria();
-        bestProvider = lm.getBestProvider(criteria, false);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(bestProvider);
-
-        if (location == null){
-            Toast.makeText(getApplicationContext(),"Location Not found",Toast.LENGTH_LONG).show();
-        }else{
-            geocoder = new Geocoder(getApplicationContext());
-            try {
-                user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                lat=(double)user.get(0).getLatitude();
-                lng=(double)user.get(0).getLongitude();
-                System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
-
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        latitude = lat;
-        longitude = lng;
-
-        finish();
+        coordinates();
 
         Place place = new Place(0, this.user_id, this.place_name, this.place_description,
                 this.longitude, this.latitude, photoBytes);
-        DataBase.getInstance(this).placeDao().insert(place);
 
-        Toast.makeText(this, "Utilizador id:" + this.user_id, Toast.LENGTH_SHORT).show();
+        DataBase.getInstance(this).placeDao().insert(place);
+        finish();
+
+        //Toast.makeText(this, "Utilizador id:" + this.user_id, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -197,6 +159,48 @@ public class AddPlaceActivity extends AppCompatActivity {
         bmp.compress(Bitmap.CompressFormat.JPEG, 70, stream);
         byte[] byteArray = stream.toByteArray();
         return byteArray;
+    }
+
+    public void coordinates(){
+        //  coordinates try
+        Geocoder geocoder;
+        String bestProvider;
+        List<Address> user;
+        double lat = 0;
+        double lng = 0;
+
+        LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+
+        Criteria criteria = new Criteria();
+        bestProvider = lm.getBestProvider(criteria, true);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(bestProvider);
+
+        if (location == null){
+            Toast.makeText(getApplicationContext(),"Location Not found",Toast.LENGTH_LONG).show();
+        }else{
+            geocoder = new Geocoder(getApplicationContext());
+            try {
+                user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                lat=user.get(0).getLatitude();
+                lng=user.get(0).getLongitude();
+                System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
+
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        latitude = lat;
+        longitude = lng;
     }
 
 
