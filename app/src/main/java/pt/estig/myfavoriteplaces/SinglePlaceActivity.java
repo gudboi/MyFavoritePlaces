@@ -40,24 +40,22 @@ public class SinglePlaceActivity extends FragmentActivity implements OnMapReadyC
     private Double place_lat;
     private Double place_lng;
     private byte[] place_photo;
-<<<<<<< Updated upstream
     private String place_latitude;
     private String place_longitude;
-=======
     private double lat;
     private double lon;
->>>>>>> Stashed changes
+
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_place1);
+        setContentView(R.layout.activity_single_place);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.mapView);
         mapFragment.getMapAsync(this);
 
         //  Lock portrait view
@@ -84,7 +82,6 @@ public class SinglePlaceActivity extends FragmentActivity implements OnMapReadyC
         this.singlePlaceTextViewDescription.setText(this.place_description);
         this.singlePlaceTextViewLat.setText(this.place_latitude);
         this.singlePlaceTextViewLng.setText(this.place_longitude);
-
     }
 
     @Override
@@ -99,8 +96,6 @@ public class SinglePlaceActivity extends FragmentActivity implements OnMapReadyC
     }
 
     public void btnBackOnClick(View view) { finish();}
-
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -113,8 +108,8 @@ public class SinglePlaceActivity extends FragmentActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        //lat = DataBase.getInstance(this).placeDao().getPlaceLatitude(/*entra o id do local*/);
-        //lon = lat = DataBase.getInstance(this).placeDao().getPlaceLongitude(/*entra o id do local*/);
+        lat = DataBase.getInstance(this).placeDao().getPlaceLatitude(/*entra o id do local*/);
+        lon = lat = DataBase.getInstance(this).placeDao().getPlaceLongitude(/*entra o id do local*/);
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(lat, lon);
         mMap.addMarker(new MarkerOptions().position(sydney).title(this.place_name));

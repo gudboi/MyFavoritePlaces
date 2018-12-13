@@ -30,25 +30,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_placeImage" />
 
-    <TextView
-        android:id="@+id/textView_singlePlace_lat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="27dp"
-        tools:layout_editor_absoluteY="293dp" />
-
-    <TextView
-        android:id="@+id/textView_singlePlace_lng"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_place_label"
-        tools:layout_editor_absoluteX="27dp"
-        tools:layout_editor_absoluteY="320dp" />
-
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
