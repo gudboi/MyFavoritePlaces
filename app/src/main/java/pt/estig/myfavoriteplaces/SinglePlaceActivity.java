@@ -40,13 +40,6 @@ public class SinglePlaceActivity extends FragmentActivity implements OnMapReadyC
     private Double place_lat;
     private Double place_lng;
     private byte[] place_photo;
-    private String place_latitude;
-    private String place_longitude;
-    private double lat;
-    private double lon;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +57,6 @@ public class SinglePlaceActivity extends FragmentActivity implements OnMapReadyC
 
         this.singlePlaceImageView = findViewById(R.id.imageView_placeImage);
         this.singlePlaceTextViewDescription = findViewById(R.id.textView_singlePlace_description);
-        this.singlePlaceTextViewLat = findViewById(R.id.textView_singlePlace_lat);
-        this.singlePlaceTextViewLng = findViewById(R.id.textView_singlePlace_lng);
 
         this.place_name = getIntent().getStringExtra("PLACE_NAME");
         this.place_description = getIntent().getStringExtra("PLACE_DESCRIPTION");
@@ -73,15 +64,11 @@ public class SinglePlaceActivity extends FragmentActivity implements OnMapReadyC
         this.place_lat = getIntent().getDoubleExtra("PLACE_LAT",0);
         this.place_lng = getIntent().getDoubleExtra("PLACE_LNG",0);
 
-        place_latitude = String.valueOf(place_lat);
-        place_longitude = String.valueOf(place_lng);
         Bitmap bitmap = BitmapFactory.decodeByteArray(this.place_photo, 0, this.place_photo.length);
 
         this.singlePlaceImageView.setImageBitmap(bitmap);
         setTitle(this.place_name);
         this.singlePlaceTextViewDescription.setText(this.place_description);
-        this.singlePlaceTextViewLat.setText(this.place_latitude);
-        this.singlePlaceTextViewLng.setText(this.place_longitude);
     }
 
     @Override
@@ -108,10 +95,8 @@ public class SinglePlaceActivity extends FragmentActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        lat = DataBase.getInstance(this).placeDao().getPlaceLatitude(/*entra o id do local*/);
-        lon = lat = DataBase.getInstance(this).placeDao().getPlaceLongitude(/*entra o id do local*/);
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(lat, lon);
+        LatLng sydney = new LatLng(place_lat, place_lng);
         mMap.addMarker(new MarkerOptions().position(sydney).title(this.place_name));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
