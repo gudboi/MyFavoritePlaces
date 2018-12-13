@@ -1,12 +1,20 @@
 package pt.estig.myfavoriteplaces;
 
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 
 import pt.estig.myfavoriteplaces.data.DataBase;
 import pt.estig.myfavoriteplaces.data.Place;
@@ -65,14 +74,14 @@ public class AddPlaceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_place);
 
         long id = getIntent().getLongExtra("USER_ID", 0);
-        if(id == 0) {
+        if (id == 0) {
             finish();
             return;
         }
 
         addPhotoView = findViewById(R.id.imageView_addPhoto);
-        editText_place_name= findViewById(R.id.editText_place_name);
-        editText_place_description =findViewById(R.id.editText_place_description);
+        editText_place_name = findViewById(R.id.editText_place_name);
+        editText_place_description = findViewById(R.id.editText_place_description);
 
 
         addPhotoView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -98,13 +107,13 @@ public class AddPlaceActivity extends AppCompatActivity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             // Se sim, lançamos o Intent
             startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-        }else{
+        } else {
             //erro
         }
     }
 
     public void btnSaveClicked(View view) {
-        this.user_id =  PreferencesHelper.getPrefs(getApplicationContext()).getLong(USERID, 0);
+        this.user_id = PreferencesHelper.getPrefs(getApplicationContext()).getLong(USERID, 0);
         this.place_name = editText_place_name.getText().toString();
         this.place_description = editText_place_description.getText().toString();
 
@@ -113,13 +122,53 @@ public class AddPlaceActivity extends AppCompatActivity {
 
         byte[] photoBytes = getBytesFromBitmap(photo);
 
-        Place place = new Place(0,this.user_id, this.place_name, this.place_description,
+        //  coordinates try
+        Geocoder geocoder;
+        String bestProvider;
+        List<Address> user = null;
+        double lat = 0;
+        double lng = 0;
+
+        LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+
+        Criteria criteria = new Criteria();
+        bestProvider = lm.getBestProvider(criteria, false);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(bestProvider);
+
+        if (location == null){
+            Toast.makeText(getApplicationContext(),"Location Not found",Toast.LENGTH_LONG).show();
+        }else{
+            geocoder = new Geocoder(getApplicationContext());
+            try {
+                user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                lat=(double)user.get(0).getLatitude();
+                lng=(double)user.get(0).getLongitude();
+                System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
+
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        latitude = lat;
+        longitude = lng;
+
+        finish();
+
+        Place place = new Place(0, this.user_id, this.place_name, this.place_description,
                 this.longitude, this.latitude, photoBytes);
         DataBase.getInstance(this).placeDao().insert(place);
 
         Toast.makeText(this, "Utilizador id:" + this.user_id, Toast.LENGTH_SHORT).show();
-
-       finish();
     }
 
     @Override
