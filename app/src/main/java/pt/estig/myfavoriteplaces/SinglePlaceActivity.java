@@ -7,12 +7,14 @@ import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayInputStream;
 
+import pt.estig.myfavoriteplaces.data.DataBase;
 import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
 
 public class SinglePlaceActivity extends AppCompatActivity {
@@ -22,6 +24,7 @@ public class SinglePlaceActivity extends AppCompatActivity {
     // Views
     private TextView singlePlaceTextViewDescription;
     private ImageView singlePlaceImageView;
+    private Button teste;
 
     //  Data
     private String place_name;
@@ -46,11 +49,19 @@ public class SinglePlaceActivity extends AppCompatActivity {
         this.singlePlaceImageView = findViewById(R.id.imageView_placeImage);
         this.singlePlaceTextViewDescription = findViewById(R.id.textView_singlePlace_description);
 
+        this.teste = findViewById(R.id.button2);
+
+
         this.place_name = getIntent().getStringExtra("PLACE_NAME");
         this.place_description = getIntent().getStringExtra("PLACE_DESCRIPTION");
         this.place_photo = getIntent().getByteArrayExtra("PLACE_PHOTO");
         this.place_lat = getIntent().getDoubleExtra("PLACE_LAT",0);
         this.place_lng = getIntent().getDoubleExtra("PLACE_LNG",0);
+
+        //indo a bd buscar as coordenadas
+        //place_lat= DataBase.getInstance()
+        //user = DataBase.getInstance(this).userDao().getUser(username);
+
 
         Bitmap bitmap = BitmapFactory.decodeByteArray(this.place_photo, 0, this.place_photo.length);
 
@@ -72,6 +83,11 @@ public class SinglePlaceActivity extends AppCompatActivity {
 
     public void btnBackOnClick(View view) {
         finish();
+    }
+
+    public void btnTesteOnClick(View view) {
+        Toast.makeText(this, "Lat: " + place_lat + " Lng: " + place_lng + "Place:" + place_name, Toast.LENGTH_SHORT).show();
+
     }
 
     public void btnSeeOnMap(View view){

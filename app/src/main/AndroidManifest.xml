@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pt.estig.myfavoriteplaces">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -45,7 +45,7 @@
 
         <activity
             android:name=".PlaceOnMapActivity"
-            android:label="@string/title_activity_place_on_map"></activity>
+            android:label="Place on the map"></activity>
     </application>
 
 </manifest>

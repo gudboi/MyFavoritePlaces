@@ -55,6 +55,9 @@ public class AddPlaceActivity extends AppCompatActivity {
     private String place_name;
     private String place_description;
 
+    private Double lat;
+    private Double lng;
+
     // Map related objects
     //private Marker contactMarker = null;
     //private LatLng currentLatLng = null;
@@ -71,6 +74,8 @@ public class AddPlaceActivity extends AppCompatActivity {
         //  Lock portrait mode
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_add_place);
+
+        checkLocationPermission();
 
         long id = getIntent().getLongExtra("USER_ID", 0);
         if (id == 0) {
@@ -119,6 +124,7 @@ public class AddPlaceActivity extends AppCompatActivity {
         byte[] photoBytes = getBytesFromBitmap(photo);
 
         coordinates();
+        //Toast.makeText(this, "Lat: " + latitude + " Lng: " + longitude + "Place:" + place_name, Toast.LENGTH_SHORT).show();
 
         Place place = new Place(0, this.user_id, this.place_name, this.place_description,
                 this.longitude, this.latitude, photoBytes);
@@ -162,22 +168,14 @@ public class AddPlaceActivity extends AppCompatActivity {
         Geocoder geocoder;
         String bestProvider;
         List<Address> user;
-        double lat = 0;
-        double lng = 0;
+
 
         LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
         Criteria criteria = new Criteria();
         bestProvider = lm.getBestProvider(criteria, true);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
         @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(bestProvider);
 
@@ -189,7 +187,7 @@ public class AddPlaceActivity extends AppCompatActivity {
                 user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                 lat=user.get(0).getLatitude();
                 lng=user.get(0).getLongitude();
-                System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
+                //System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
 
             }catch (Exception e) {
                 e.printStackTrace();
@@ -197,5 +195,30 @@ public class AddPlaceActivity extends AppCompatActivity {
         }
         latitude = lat;
         longitude = lng;
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    public boolean checkLocationPermission()
+    {
+        String permission = "android.permission.ACCESS_FINE_LOCATION";
+        int res = this.checkCallingOrSelfPermission(permission);
+        return (res == PackageManager.PERMISSION_GRANTED);
     }
 }

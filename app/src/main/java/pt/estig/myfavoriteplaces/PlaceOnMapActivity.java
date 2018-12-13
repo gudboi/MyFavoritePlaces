@@ -22,8 +22,13 @@ public class PlaceOnMapActivity extends FragmentActivity implements OnMapReadyCa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        intent = new Intent(this, SinglePlaceActivity.class);
+        lat = intent.getDoubleExtra("LAT", lat);
+        lng =intent.getDoubleExtra("LNG", lng);
+        place_name = intent.getStringExtra("PLACE_NAME");
         setContentView(R.layout.activity_place_on_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -32,10 +37,7 @@ public class PlaceOnMapActivity extends FragmentActivity implements OnMapReadyCa
     @Override
     protected void onStart() {
         super.onStart();
-        intent = new Intent(this, SinglePlaceActivity.class);
-        lat = intent.getDoubleExtra("LAT", lat);
-        lng =intent.getDoubleExtra("LNG", lng);
-        place_name = intent.getStringExtra("PLACE_NAME");
+
     }
 
     /**
