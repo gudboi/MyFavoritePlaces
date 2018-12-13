@@ -17,6 +17,7 @@ public class PlaceOnMapActivity extends FragmentActivity implements OnMapReadyCa
     private double lat;
     private double lng;
     private String place_name;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +27,16 @@ public class PlaceOnMapActivity extends FragmentActivity implements OnMapReadyCa
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        Intent intent = new Intent(this, SinglePlaceActivity.class);
-        lat = intent.getDoubleExtra("LAT", 0);
-        lng =intent.getDoubleExtra("LNG", 0);
-        place_name = intent.getStringExtra("PLACE_NAME");
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        intent = new Intent(this, SinglePlaceActivity.class);
+        lat = intent.getDoubleExtra("LAT", lat);
+        lng =intent.getDoubleExtra("LNG", lng);
+        place_name = intent.getStringExtra("PLACE_NAME");
+    }
 
     /**
      * Manipulates the map once available.
@@ -48,8 +52,8 @@ public class PlaceOnMapActivity extends FragmentActivity implements OnMapReadyCa
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(lat, lng);
-        mMap.addMarker(new MarkerOptions().position(sydney).title(place_name));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng myplace = new LatLng(lat, lng);
+        mMap.addMarker(new MarkerOptions().position(myplace).title(place_name));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(myplace));
     }
 }

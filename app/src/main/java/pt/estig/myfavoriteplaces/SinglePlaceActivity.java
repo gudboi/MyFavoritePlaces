@@ -80,7 +80,6 @@ public class SinglePlaceActivity extends AppCompatActivity {
         intent.putExtra("LNG", place_lng);
         intent.putExtra("PLACE_NAME", place_name);
         startActivity(intent);
-
         Toast.makeText(this, "Lat: " + place_lat + " Lng: " + place_lng, Toast.LENGTH_SHORT).show();
     }
 }
