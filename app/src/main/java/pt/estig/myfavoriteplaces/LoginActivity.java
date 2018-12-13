@@ -41,8 +41,6 @@ public class LoginActivity extends AppCompatActivity {
                 long id = user.getId_user();
 
                 intent = new Intent(this, PlacesActivity.class);
-                /*intent.putExtra("USER_ID", id);
-                intent.putExtra("USERNAME", username);*/
 
                 PreferencesHelper.getPrefs(getApplicationContext()).edit().putString(PreferencesHelper.USERNAME,username).apply();
                 PreferencesHelper.getPrefs(getApplicationContext()).edit().putLong(PreferencesHelper.USERID,id).apply();

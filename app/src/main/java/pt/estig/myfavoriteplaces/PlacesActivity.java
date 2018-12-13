@@ -82,10 +82,6 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
         placeList.setAdapter(placeAdapter);
         placeList.setLayoutManager(linearLayoutManager);
 
-        //Lista todos os places:
-        //List<Place> places = DataBase.getInstance(this).placeDao().getAllPlaces();
-
-        //Lista filtrada ao user ID
         List<Place> places = DataBase.getInstance(this).placeDao().getAllPlacesOfUser(this.user_id);
 
         //boolean sortedAz = PreferencesHelper.getPrefs(getApplicationContext()).getBoolean(PreferencesHelper.SORTING_PREF, true);

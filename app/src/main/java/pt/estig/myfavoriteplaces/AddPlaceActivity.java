@@ -63,7 +63,6 @@ public class AddPlaceActivity extends AppCompatActivity {
         Intent starter = new Intent(context, AddPlaceActivity.class);
         starter.putExtra("USER_ID", id);
         context.startActivity(starter);
-
     }
 
     @Override
@@ -116,9 +115,6 @@ public class AddPlaceActivity extends AppCompatActivity {
         this.user_id = PreferencesHelper.getPrefs(getApplicationContext()).getLong(USERID, 0);
         this.place_name = editText_place_name.getText().toString();
         this.place_description = editText_place_description.getText().toString();
-
-        this.longitude = 1234.5;
-        this.latitude = 5432.1;
 
         byte[] photoBytes = getBytesFromBitmap(photo);
 
@@ -202,6 +198,4 @@ public class AddPlaceActivity extends AppCompatActivity {
         latitude = lat;
         longitude = lng;
     }
-
-
 }

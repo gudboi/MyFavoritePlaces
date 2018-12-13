@@ -44,6 +44,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".PlaceOnMapActivity"
+            android:label="@string/title_activity_place_on_map"></activity>
     </application>
 
 </manifest>
