@@ -28,4 +28,9 @@ public interface PlaceDao {
     @Query("SELECT * FROM place WHERE id_user = :user_id")
     List<Place> getAllPlacesOfUser(long user_id);
 
+    @Query("SELECT latitude FROM place WHERE id_place = :place_id")
+    Double getPlaceLatitude(long place_id);
+
+    @Query("SELECT longitude FROM place WHERE id_place = :place_id")
+    Double getPlaceLongitude(long place_id);
 }
