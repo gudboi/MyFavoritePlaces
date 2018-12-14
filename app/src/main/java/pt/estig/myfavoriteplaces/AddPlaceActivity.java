@@ -86,15 +86,15 @@ public class AddPlaceActivity extends AppCompatActivity {
 
 
 
+
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        LocationManager lm = (LocationManager) getApplicationContext().getSystemService(
-                Context.LOCATION_SERVICE);
-        isGpsEnable = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
 
         locationListener = new LocationListener() {
             @Override
@@ -129,13 +129,14 @@ public class AddPlaceActivity extends AppCompatActivity {
         }
 
 
+        LocationManager lm = (LocationManager) getApplicationContext().getSystemService(
+                Context.LOCATION_SERVICE);
+
+        isGpsEnable = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
 
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 1000,10,locationListener);
-
-        Criteria criteria = new Criteria();
-
-        //bestProvider = Objects.requireNonNull(lm).getBestProvider(criteria, true);
 
         @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(
                 LocationManager.GPS_PROVIDER);
