@@ -40,10 +40,12 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
     private long user_id;
     // Views
     private View addPlaceHint;
-    private Intent intent;
+    // Views - List
     private LinearLayoutManager linearLayoutManager;
     private RecyclerView placeList;
     private PlaceAdapter placeAdapter;
+    // Intents
+    private Intent intent;
 
     /**
      * The onCreate void is used to start an activity
@@ -95,12 +97,18 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
         placeAdapter.notifyDataSetChanged();
     }
 
+    public static void start(Context context, long id) {
+        Intent starter = new Intent(context, AddPlaceActivity.class);
+        starter.putExtra("USER_ID", id);
+        context.startActivity(starter);
+    }
+
     /** Triggered at Add Place button, moving us to the AddPlaceActivity,
      * taking user_id in the extras, but anyway we have it in SharedPrefs
      * @param view
      *
      */
-    public void btnAddPlaceClicked(View view){ AddPlaceActivity.start(this, this.user_id);}
+    public void btnAddPlaceClicked(View view){ PlacesActivity.start(this, this.user_id);}
 
     /** Triggered clicking an item at the recycleview and opening a new
      * activity called SinglePlaceActivity, passing place data in extras
@@ -178,6 +186,7 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
 
         @Override
         public boolean onLongClick(View view) {
+
             return true;
         }
     }

@@ -61,23 +61,13 @@ public class AddPlaceActivity extends AppCompatActivity {
     private String place_description;
 
     static Location lastLocation = null;
-    static double distanceInM;
     private boolean isGpsEnable;
     private LocationListener locationListener;
     private Geocoder geocoder;
-    private String bestProvider;
+    //private String bestProvider;
     private List<Address> user;
 
-    /**
-     *
-     * @param context
-     * @param id
-     */
-    public static void start(Context context, long id) {
-        Intent starter = new Intent(context, AddPlaceActivity.class);
-        starter.putExtra("USER_ID", id);
-        context.startActivity(starter);
-    }
+
 
     /**
      * The onCreate void is used to start an activity
@@ -93,6 +83,14 @@ public class AddPlaceActivity extends AppCompatActivity {
         addPhotoView = findViewById(R.id.imageView_addPhoto);
         editText_place_name = findViewById(R.id.editText_place_name);
         editText_place_description = findViewById(R.id.editText_place_description);
+
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         LocationManager lm = (LocationManager) getApplicationContext().getSystemService(
                 Context.LOCATION_SERVICE);
@@ -130,12 +128,14 @@ public class AddPlaceActivity extends AppCompatActivity {
             return;
         }
 
+
+
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 1000,10,locationListener);
 
         Criteria criteria = new Criteria();
 
-        bestProvider = Objects.requireNonNull(lm).getBestProvider(criteria, true);
+        //bestProvider = Objects.requireNonNull(lm).getBestProvider(criteria, true);
 
         @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(
                 LocationManager.GPS_PROVIDER);
@@ -155,11 +155,7 @@ public class AddPlaceActivity extends AppCompatActivity {
             }
         }
 
-        long id = getIntent().getLongExtra("USER_ID", 0);
-        if (id == 0) {
-            finish();
-            return;
-        }
+
 
         addPhotoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -168,7 +164,6 @@ public class AddPlaceActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
 
     /**
@@ -192,7 +187,8 @@ public class AddPlaceActivity extends AppCompatActivity {
             // Se sim, lançamos o Intent
             startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
         } else {
-            //erro
+            Toast.makeText(getApplicationContext(),"Location Not found",
+                    Toast.LENGTH_LONG).show();
         }
     }
 
@@ -201,7 +197,7 @@ public class AddPlaceActivity extends AppCompatActivity {
      * @param view: responsible for drawing and event handling.
      */
     public void btnSaveClicked(View view) {
-        if(isGpsEnable){
+        if(isGpsEnable=true){
             this.user_id = PreferencesHelper.getPrefs(getApplicationContext()).getLong(USERID,
                     0);
             this.place_name = editText_place_name.getText().toString();
