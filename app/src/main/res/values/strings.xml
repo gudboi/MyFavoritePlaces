@@ -22,4 +22,10 @@
     <string name="title_activity_single_place1">Map</string>
     <string name="btn_seeOnMap">See on map</string>
     <string name="title_activity_place_on_map">Map</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

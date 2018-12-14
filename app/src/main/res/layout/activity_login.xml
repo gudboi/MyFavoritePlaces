@@ -25,19 +25,21 @@
             android:id="@+id/editText_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="@string/hint_user"
             android:ems="10"
+            android:hint="@string/hint_username"
             android:inputType="textPersonName"
-            android:text="@string/usr_name"
-            android:autofillHints="@string/hint_user"/>
+            android:text="@string/usr_name" />
 
         <EditText
             android:id="@+id/editText_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="@string/hint_pw"
             android:ems="10"
+            android:hint="@string/hint_password"
             android:inputType="textPassword"
-            android:text="@string/usr_pw"
-            android:autofillHints="@string/hint_pw"/>
+            android:text="@string/usr_pw" />
 
         <Button
             android:id="@+id/button_login"

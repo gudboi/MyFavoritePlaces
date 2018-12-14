@@ -21,6 +21,8 @@ public class PlaceOnMapActivity extends FragmentActivity implements OnMapReadyCa
     byte[] place_photo;
     Intent intent;
 
+    float zoom = 12.0f;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +72,6 @@ public class PlaceOnMapActivity extends FragmentActivity implements OnMapReadyCa
         // Add a marker in Sydney and move the camera
         LatLng myplace = new LatLng(lat, lng);
         mMap.addMarker(new MarkerOptions().position(myplace).title(place_name));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(myplace));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myplace, zoom));
     }
 }

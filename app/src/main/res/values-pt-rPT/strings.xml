@@ -14,4 +14,5 @@
     <string name="delete_place_dialog_title">Warning</string>
     <string name="delete_place_dialog_message">vsajlgakjbgçskagbksaçjgbkaçsjgbkçasgbskagbaçkss</string>
     <string name="delete_place_afirmative">Confirmar</string>
+    <string name="hint_username">Username</string>
 </resources>

@@ -24,6 +24,8 @@ public class LoginActivity extends AppCompatActivity {
         //  Lock portrait view
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_login);
+
+
     }
 
     public void btnLoginClicked(View view){
