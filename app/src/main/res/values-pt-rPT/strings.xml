@@ -11,11 +11,18 @@
     <string name="hint_name">Nome do Local</string>
     <string name="hint_description">Descrição</string>
     <string name="btn_save">Guardar</string>
-    <string name="delete_place_dialog_title">Warning</string>
-    <string name="delete_place_dialog_message">vsajlgakjbgçskagbksaçjgbkaçsjgbkçasgbskagbaçkss</string>
+    <string name="delete_place_dialog_title">Aviso</string>
     <string name="delete_place_afirmative">Confirmar</string>
-    <string name="hint_username">Username</string>
+    <string name="hint_username">Nome de Utilizador</string>
     <string name="toast_wrong_password">Passwor Errada!</string>
     <string name="toast_user_inexistent">Utilizador não existe!</string>
     <string name="toast_user_exist">Utilizador já existe!</string>
+    <string name="toast_user_created">Utilizador criado!</string>
+    <string name="add_place_label">Adicionar Local</string>
+    <string name="places_label">Locais</string>
+    <string name="place_thumbnail">Imagem do Local</string>
+    <string name="btn_back">Voltar</string>
+    <string name="title_activity_single_place1">Mapa</string>
+    <string name="btn_seeOnMap">Ver no mapa</string>
+    <string name="title_activity_place_on_map">Mapa</string>
 </resources>
