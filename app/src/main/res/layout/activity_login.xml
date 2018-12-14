@@ -10,8 +10,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <Space
@@ -50,9 +56,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_blue_dark"
-            android:textColor="@android:color/white"
             android:onClick="btnLoginClicked"
-            android:text="@string/btn_login" />
+            android:text="@string/btn_login"
+            android:textColor="@android:color/white" />
 
         <Space
             android:layout_width="match_parent"
@@ -63,9 +69,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_blue_dark"
-            android:textColor="@android:color/white"
             android:onClick="btnRegisterClicked"
-            android:text="@string/btn_register" />
+            android:text="@string/btn_register"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
