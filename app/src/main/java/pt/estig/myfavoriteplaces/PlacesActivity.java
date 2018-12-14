@@ -162,6 +162,10 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
         startActivity(intent);
     }
 
+    /**
+     * The PlaceViewHolder class belong to the PlaceAdapter. PlaceAdapter should feel free to use
+     * the ViewHolder implementations to store data that makes binding view contents easier.
+     */
     public class PlaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
             View.OnLongClickListener {
         Place place;
@@ -216,6 +220,12 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
         }
     }
 
+    /**
+     *  The PlaceAdapter class acts as a bridge between an PlaceAdapter and the underlying data for
+     *  the view.
+     *  The Adapter provides access to the data items. The Adapter is also responsible for making a
+     *  View for each item in the data set.
+     */
     class PlaceAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
         private List<Place> data = new ArrayList<>();
 
