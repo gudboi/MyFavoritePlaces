@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- activity_login.xml -->
     <string name="app_name">My Favorite Places</string>
     <string name="usr_name">Nome de Utilizador</string>
     <string name="hint_user">Nome de Utilizador</string>
     <string name="btn_register">Registar</string>
-    <string name="intro_text">Guarde os seus locais favoritos quando viajar...</string>
+    <string name="intro_text">Guarde os seus locais favoritos quando viajar</string>
     <string name="btn_login">Entrar</string>
+    <!-- activity_places.xml -->
     <string name="btn_logout">Sair</string>
     <string name="btn_addPlace">Adicionar Local</string>
+    <!-- activity_add_place.xml -->
     <string name="hint_name">Nome do Local</string>
     <string name="hint_description">Descrição</string>
     <string name="btn_save">Guardar</string>
     <string name="delete_place_dialog_title">Aviso</string>
     <string name="delete_place_afirmative">Confirmar</string>
     <string name="hint_username">Nome de Utilizador</string>
+    <!-- Toasts -->
     <string name="toast_wrong_password">Passwor Errada!</string>
     <string name="toast_user_inexistent">Utilizador não existe!</string>
     <string name="toast_user_exist">Utilizador já existe!</string>
@@ -23,6 +27,7 @@
     <string name="place_thumbnail">Imagem do Local</string>
     <string name="btn_back">Voltar</string>
     <string name="title_activity_single_place1">Mapa</string>
+    <!-- activity_single_place.xml -->
     <string name="btn_seeOnMap">Ver no mapa</string>
     <string name="title_activity_place_on_map">Mapa</string>
 </resources>

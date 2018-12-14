@@ -27,6 +27,7 @@
     <string name="single_place_label" translatable="false">Castelo de Beja</string>
     <string name="btn_back">Back</string>
     <string name="title_activity_single_place1">Map</string>
+    <!-- activity_single_place.xml -->
     <string name="btn_seeOnMap">See on map</string>
     <string name="title_activity_place_on_map">Map</string>
     <string name="hint_username">Username</string>
