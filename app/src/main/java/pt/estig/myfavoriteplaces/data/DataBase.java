@@ -9,11 +9,19 @@ import pt.estig.myfavoriteplaces.data.dao.PlaceDao;
 import pt.estig.myfavoriteplaces.data.dao.TypeOfPlaceDao;
 import pt.estig.myfavoriteplaces.data.dao.UserDao;
 
+/**
+ * Creates the database to store the information required for the app
+ */
 @Database(entities = {User.class, Place.class, TypeOfPlace.class}, version = 1, exportSchema = false)
 
 public abstract class DataBase extends RoomDatabase {
     private static DataBase instance = null;
 
+    /**
+     * Constructor for the database
+     * @param context the context for the database of the application
+     * @return instance
+     */
     public static DataBase getInstance(Context context){
 
         context = context.getApplicationContext();
@@ -28,7 +36,18 @@ public abstract class DataBase extends RoomDatabase {
     }
 
 
+    /**
+     * Inserts the table User in the database
+     */
     public abstract UserDao userDao();
+
+    /**
+     * Inserts the table Place in the database
+     */
     public abstract PlaceDao placeDao();
+
+    /**
+     * Inserts the table TypeOfPlace in the database
+     */
     public abstract TypeOfPlaceDao typeOfPlaceDao();
 }

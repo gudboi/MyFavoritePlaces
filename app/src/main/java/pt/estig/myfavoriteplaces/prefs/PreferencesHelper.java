@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 
+/**
+ * Sets the preferences for the getters and setters used in the app
+ */
 public class PreferencesHelper {
     private static final String PREFS_FILE = "app_prefs";
 

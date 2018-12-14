@@ -34,7 +34,7 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
 import static pt.estig.myfavoriteplaces.prefs.PreferencesHelper.USERID;
 
 /**
- *The AddPlaceActivity class implements an activity permit create a new place on the Data Base
+ * The AddPlaceActivity class implements an activity permit to create a new place on the database
  */
 public class AddPlaceActivity extends AppCompatActivity {
 
@@ -83,6 +83,9 @@ public class AddPlaceActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Starts the application and waits for changes
+     */
     @Override
     protected void onStart() {
         super.onStart();
