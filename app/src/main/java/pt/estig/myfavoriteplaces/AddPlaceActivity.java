@@ -60,17 +60,13 @@ public class AddPlaceActivity extends AppCompatActivity {
     private String place_name;
     private String place_description;
 
-    private Double lat;
-    private Double lng;
-
     static Location lastLocation = null;
     static double distanceInM;
-
     private boolean isGpsEnable;
-
-    // Map related objects
-    //private Marker contactMarker = null;
-    //private LatLng currentLatLng = null;
+    private LocationListener locationListener;
+    private Geocoder geocoder;
+    private String bestProvider;
+    private List<Address> user;
 
     /**
      *
@@ -101,7 +97,6 @@ public class AddPlaceActivity extends AppCompatActivity {
         LocationManager lm = (LocationManager) getApplicationContext().getSystemService(
                 Context.LOCATION_SERVICE);
         isGpsEnable = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        LocationListener locationListener;
 
         locationListener = new LocationListener() {
             @Override
@@ -122,13 +117,6 @@ public class AddPlaceActivity extends AppCompatActivity {
             public void onProviderDisabled(String provider) {}
         };
 
-
-        //checkLocationPermission();
-
-        Geocoder geocoder;
-        String bestProvider;
-        List<Address> user;
-
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -147,9 +135,8 @@ public class AddPlaceActivity extends AppCompatActivity {
                 1,1,locationListener);
 
         Criteria criteria = new Criteria();
-       // assert lm != null;
-        bestProvider = Objects.requireNonNull(lm).getBestProvider(criteria, true);
 
+        bestProvider = Objects.requireNonNull(lm).getBestProvider(criteria, true);
 
         @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(
                 LocationManager.GPS_PROVIDER);
@@ -162,16 +149,12 @@ public class AddPlaceActivity extends AppCompatActivity {
             try {
                 user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(),
                         1);
-                lat=user.get(0).getLatitude();
-                lng=user.get(0).getLongitude();
-                //System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
-
+                latitude = user.get(0).getLatitude();
+                longitude = user.get(0).getLongitude();
             }catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        latitude = lat;
-        longitude = lng;
 
         long id = getIntent().getLongExtra("USER_ID", 0);
         if (id == 0) {
@@ -190,7 +173,8 @@ public class AddPlaceActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     * The removePhoto void is responsable to remove the photo from image view passing the photo
+     * bitmap to null.
      */
     private void removePhoto() {
         photo = null;
@@ -203,7 +187,6 @@ public class AddPlaceActivity extends AppCompatActivity {
      * @param view: responsible for drawing and event handling.
      */
     public void btnCameraClicked(View view) {
-
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Para verificar que de facto existe uma aplicação que dê conta do nosso pedido
         if (intent.resolveActivity(getPackageManager()) != null) {
@@ -220,13 +203,12 @@ public class AddPlaceActivity extends AppCompatActivity {
      */
     public void btnSaveClicked(View view) {
         if(isGpsEnable){
-
             this.user_id = PreferencesHelper.getPrefs(getApplicationContext()).getLong(USERID,
                     0);
             this.place_name = editText_place_name.getText().toString();
             this.place_description = editText_place_description.getText().toString();
 
-            byte[] photoBytes = getBytesFromBitmap(photo);
+             byte[] photoBytes = getBytesFromBitmap(photo);
 
             Toast.makeText(this, "Lat: " + latitude + " Lng: " + longitude + "Place:" +
                     place_name, Toast.LENGTH_SHORT).show();
@@ -235,9 +217,7 @@ public class AddPlaceActivity extends AppCompatActivity {
                     this.longitude, this.latitude, photoBytes);
 
             DataBase.getInstance(this).placeDao().insert(place);
-
             finish();
-            //Toast.makeText(this, "Utilizador id:" + this.user_id, Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(this, "Ligue o GPS para poder submeter um local.",
                     Toast.LENGTH_LONG).show();
