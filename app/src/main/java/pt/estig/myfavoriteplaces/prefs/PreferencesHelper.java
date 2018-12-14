@@ -43,9 +43,4 @@ public class PreferencesHelper {
         return getPrefs(context).getString(key, defValue);
     }
 
-
-    public static boolean getFirstTimeRunning(Context context, boolean defValue) {
-        return getBoolean(context, "FIRST_TIME_PREF", defValue);
-    }
-
 }

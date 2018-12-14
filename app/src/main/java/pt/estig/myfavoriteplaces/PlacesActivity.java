@@ -192,6 +192,10 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
             }
         }
 
+        /** Method to convert the byte[] stream to a bitmap
+         * @param photoBytes
+         * @return
+         */
         private Bitmap bitmapFromBytes(byte[] photoBytes) {
             ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(photoBytes);
             Bitmap bitmap = BitmapFactory.decodeStream(arrayInputStream);
@@ -231,6 +235,9 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
                 sort(sort);
             }
 
+        /** Method to sort the array with asc for ascendent or else descendent
+         * @param asc
+         */
         private void sort(final boolean asc) {
             Collections.sort(data, new Comparator<Place>() {
                 @Override
@@ -264,18 +271,6 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
         public int getItemCount() {
             return data.size();
         }
-
-        /** Remove a Place
-         * @param place
-         */
-        private void remove(Place place) {
-            int index = data.indexOf(place);
-            if(index != -1) {
-                data.remove(index);
-                notifyItemRemoved(index);
-            }
-        }
-
-
+        
     }
  }
