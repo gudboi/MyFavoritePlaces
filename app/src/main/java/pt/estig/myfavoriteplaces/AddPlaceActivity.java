@@ -204,7 +204,8 @@ public class AddPlaceActivity extends AppCompatActivity {
 
             byte[] photoBytes = getBytesFromBitmap(photo);
 
-            Toast.makeText(this, "Lat: " + latitude + " Lng: " + longitude + "Place:" + place_name, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Lat: " + latitude + " Lng: " + longitude + "Place:" +
+                    place_name, Toast.LENGTH_SHORT).show();
 
             Place place = new Place(0, this.user_id, this.place_name, this.place_description,
                     this.longitude, this.latitude, photoBytes);
