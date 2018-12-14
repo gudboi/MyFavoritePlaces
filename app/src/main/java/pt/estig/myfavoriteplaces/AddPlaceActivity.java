@@ -86,7 +86,8 @@ public class AddPlaceActivity extends AppCompatActivity {
         editText_place_name = findViewById(R.id.editText_place_name);
         editText_place_description = findViewById(R.id.editText_place_description);
 
-        LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager lm = (LocationManager) getApplicationContext().getSystemService(
+                Context.LOCATION_SERVICE);
         isGpsEnable = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
         LocationListener locationListener;
 
@@ -122,7 +123,8 @@ public class AddPlaceActivity extends AppCompatActivity {
         String bestProvider;
         List<Address> user;
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -130,7 +132,8 @@ public class AddPlaceActivity extends AppCompatActivity {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(this,new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             return;
         }
 
@@ -142,14 +145,17 @@ public class AddPlaceActivity extends AppCompatActivity {
         bestProvider = Objects.requireNonNull(lm).getBestProvider(criteria, true);
 
 
-        @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(
+                LocationManager.GPS_PROVIDER);
 
         if (location == null){
-            Toast.makeText(getApplicationContext(),"Location Not found",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Location Not found",
+                    Toast.LENGTH_LONG).show();
         }else{
             geocoder = new Geocoder(getApplicationContext());
             try {
-                user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(),
+                        1);
                 lat=user.get(0).getLatitude();
                 lng=user.get(0).getLongitude();
                 //System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
@@ -198,7 +204,8 @@ public class AddPlaceActivity extends AppCompatActivity {
     public void btnSaveClicked(View view) {
         if(isGpsEnable){
 
-            this.user_id = PreferencesHelper.getPrefs(getApplicationContext()).getLong(USERID, 0);
+            this.user_id = PreferencesHelper.getPrefs(getApplicationContext()).getLong(USERID,
+                    0);
             this.place_name = editText_place_name.getText().toString();
             this.place_description = editText_place_description.getText().toString();
 
@@ -215,7 +222,8 @@ public class AddPlaceActivity extends AppCompatActivity {
             finish();
             //Toast.makeText(this, "Utilizador id:" + this.user_id, Toast.LENGTH_SHORT).show();
         }else{
-            Toast.makeText(this, "Ligue o GPS para poder submeter um local.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Ligue o GPS para poder submeter um local.",
+                    Toast.LENGTH_LONG).show();
         }
 
     }

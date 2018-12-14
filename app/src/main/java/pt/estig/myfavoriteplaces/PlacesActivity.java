@@ -32,15 +32,12 @@ import pt.estig.myfavoriteplaces.data.Place;
 import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
 
 /**
- *  This activity is here to list all places added by us,
- *  and for calling the AddPlacesActivity by pressing the add button,
- *  and calling the SingularPlaceActivity by pressing in one item.
+ *  This activity is here to list all places added by us, and for calling the AddPlacesActivity by
+ *  pressing the add button, and calling the SingularPlaceActivity by pressing in one item.
  */
  public class PlacesActivity extends AppCompatActivity {
 
     private long user_id;
-    //private String username;
-
     //  Views
     //private TextView usernameText;
     private View addPlaceHint;
@@ -51,6 +48,10 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
     private RecyclerView placeList;
     private PlaceAdapter placeAdapter;
 
+    /**
+     * The onCreate void is used to start an activity
+     * @param savedInstanceState: is used to save and recover state information.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +72,9 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
 
     }
 
+    /**
+     * Called when the activity is becoming visible to the user.
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -135,7 +139,6 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
         dialog.show();
     }*/
 
-
     /** Triggered clicking an item at the recycleview and opening a new
      * activity called SinglePlaceActivity, passing place data in extras
      * @param place
@@ -159,7 +162,8 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
         startActivity(intent);
     }
 
-    public class PlaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public class PlaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
+            View.OnLongClickListener {
         Place place;
 
         final TextView name;
@@ -245,7 +249,8 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
         @NonNull
         @Override
         public PlaceViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.place, viewGroup, false);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.place,
+                    viewGroup, false);
             return new PlaceViewHolder(view);
         }
 

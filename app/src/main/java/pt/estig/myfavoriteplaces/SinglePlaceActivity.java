@@ -57,7 +57,8 @@ public class SinglePlaceActivity extends AppCompatActivity {
         this.place_lat = getIntent().getDoubleExtra("PLACE_LAT",0);
         this.place_lng = getIntent().getDoubleExtra("PLACE_LNG",0);
 
-        Bitmap bitmap = BitmapFactory.decodeByteArray(this.place_photo, 0, this.place_photo.length);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(this.place_photo, 0,
+                this.place_photo.length);
 
         this.singlePlaceImageView.setImageBitmap(bitmap);
         setTitle(this.place_name);
@@ -80,7 +81,8 @@ public class SinglePlaceActivity extends AppCompatActivity {
     }
 
     public void btnTesteOnClick(View view) {
-        Toast.makeText(this, "Lat: " + place_lat + " Lng: " + place_lng + "Place:" + place_name, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Lat: " + place_lat + " Lng: " + place_lng + "Place:" +
+                place_name, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -93,6 +95,7 @@ public class SinglePlaceActivity extends AppCompatActivity {
         intent.putExtra("PLACE_DESCRIPTION", place_description);
 
         startActivity(intent);
-        Toast.makeText(this, "Lat: " + place_lat + " Lng: " + place_lng, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Lat: " + place_lat + " Lng: " + place_lng,
+                Toast.LENGTH_SHORT).show();
     }
 }
