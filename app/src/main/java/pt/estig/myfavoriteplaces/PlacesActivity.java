@@ -98,14 +98,6 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
         finish();
     }
 
-    /** Triggered at the delete item
-     * @param place
-     */
-    public void btnDeleteClicked(Place place){
-        DataBase.getInstance(this).placeDao().delete(place);
-        placeAdapter.remove(place);
-        placeAdapter.notifyDataSetChanged();
-    }
 
     /**
      *  Method to wrap the intent and some extra
@@ -174,6 +166,7 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
             super(itemView);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
+
             name = itemView.findViewById(R.id.textView_placeName);
             photo = itemView.findViewById(R.id.imageView_placeImage);
             delete = itemView.findViewById(R.id.deleteImageButton);

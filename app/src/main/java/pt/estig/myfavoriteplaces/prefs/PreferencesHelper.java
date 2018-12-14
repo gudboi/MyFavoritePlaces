@@ -8,7 +8,7 @@ public class PreferencesHelper {
     private static final String PREFS_FILE = "app_prefs";
 
     // Keys
-    public static final String FIRST_TIME_PREF = "first_time";
+    //public static final String FIRST_TIME_RUNNING_PREF = "first_time";
 
     public static String USERID = "userid";
     public static String USERNAME = "username";
@@ -40,10 +40,6 @@ public class PreferencesHelper {
         return getPrefs(context).getString(key, defValue);
     }
 
-
-
-
-    // -----
 
     public static boolean getFirstTimeRunning(Context context, boolean defValue) {
         return getBoolean(context, "FIRST_TIME_PREF", defValue);
