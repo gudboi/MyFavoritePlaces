@@ -12,6 +12,7 @@ import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
+import java.util.Objects;
 
 import pt.estig.myfavoriteplaces.data.DataBase;
 import pt.estig.myfavoriteplaces.data.Place;
@@ -58,6 +60,9 @@ public class AddPlaceActivity extends AppCompatActivity {
     private Double lat;
     private Double lng;
 
+    static Location lastLocation = null;
+    static double distanceInM;
+
     // Map related objects
     //private Marker contactMarker = null;
     //private LatLng currentLatLng = null;
@@ -75,18 +80,89 @@ public class AddPlaceActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_add_place);
 
-        checkLocationPermission();
+        addPhotoView = findViewById(R.id.imageView_addPhoto);
+        editText_place_name = findViewById(R.id.editText_place_name);
+        editText_place_description = findViewById(R.id.editText_place_description);
+
+        LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+        LocationListener locationListener;
+
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                if (lastLocation == null) {
+                    lastLocation = location;
+                }
+                //distanceInM += location.distanceTo((lastLocation));
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+
+
+        //checkLocationPermission();
+
+        Geocoder geocoder;
+        String bestProvider;
+        List<Address> user;
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            return;
+        }
+
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                1,1,locationListener);
+
+        Criteria criteria = new Criteria();
+       // assert lm != null;
+        bestProvider = Objects.requireNonNull(lm).getBestProvider(criteria, true);
+
+
+        @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(bestProvider);
+
+        if (location == null){
+            Toast.makeText(getApplicationContext(),"Location Not found",Toast.LENGTH_LONG).show();
+        }else{
+            geocoder = new Geocoder(getApplicationContext());
+            try {
+                user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                lat=user.get(0).getLatitude();
+                lng=user.get(0).getLongitude();
+                //System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
+
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        latitude = lat;
+        longitude = lng;
 
         long id = getIntent().getLongExtra("USER_ID", 0);
         if (id == 0) {
             finish();
             return;
         }
-
-        addPhotoView = findViewById(R.id.imageView_addPhoto);
-        editText_place_name = findViewById(R.id.editText_place_name);
-        editText_place_description = findViewById(R.id.editText_place_description);
-
 
         addPhotoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -123,21 +199,20 @@ public class AddPlaceActivity extends AppCompatActivity {
 
         byte[] photoBytes = getBytesFromBitmap(photo);
 
-        coordinates();
-        //Toast.makeText(this, "Lat: " + latitude + " Lng: " + longitude + "Place:" + place_name, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Lat: " + latitude + " Lng: " + longitude + "Place:" + place_name, Toast.LENGTH_SHORT).show();
 
         Place place = new Place(0, this.user_id, this.place_name, this.place_description,
                 this.longitude, this.latitude, photoBytes);
 
         DataBase.getInstance(this).placeDao().insert(place);
-        finish();
 
+        finish();
         //Toast.makeText(this, "Utilizador id:" + this.user_id, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
             //Add photo to imageview
             Bundle extras = data.getExtras();
@@ -155,7 +230,7 @@ public class AddPlaceActivity extends AppCompatActivity {
      * @return An array of bytes or null if the Bitmap was null
      */
     private byte[] getBytesFromBitmap(Bitmap bmp) {
-        if(bmp == null) return null;
+        if (bmp == null) return null;
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 70, stream);
@@ -163,40 +238,7 @@ public class AddPlaceActivity extends AppCompatActivity {
         return byteArray;
     }
 
-    public void coordinates(){
-        //  coordinates try
-        Geocoder geocoder;
-        String bestProvider;
-        List<Address> user;
-
-
-        LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-
-        Criteria criteria = new Criteria();
-        bestProvider = lm.getBestProvider(criteria, true);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        }
-        @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(bestProvider);
-
-        if (location == null){
-            Toast.makeText(getApplicationContext(),"Location Not found",Toast.LENGTH_LONG).show();
-        }else{
-            geocoder = new Geocoder(getApplicationContext());
-            try {
-                user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                lat=user.get(0).getLatitude();
-                lng=user.get(0).getLongitude();
-                //System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
-
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        latitude = lat;
-        longitude = lng;
-    }
-
+    @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case 1: {
