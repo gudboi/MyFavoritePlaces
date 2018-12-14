@@ -33,6 +33,9 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
 
 import static pt.estig.myfavoriteplaces.prefs.PreferencesHelper.USERID;
 
+/**
+ *The AddPlaceActivity class implements an activity permit create a new place on the Data Base
+ */
 public class AddPlaceActivity extends AppCompatActivity {
 
     // Request codes
@@ -69,12 +72,21 @@ public class AddPlaceActivity extends AppCompatActivity {
     //private Marker contactMarker = null;
     //private LatLng currentLatLng = null;
 
+    /**
+     *
+     * @param context
+     * @param id
+     */
     public static void start(Context context, long id) {
         Intent starter = new Intent(context, AddPlaceActivity.class);
         starter.putExtra("USER_ID", id);
         context.startActivity(starter);
     }
 
+    /**
+     * The onCreate void is used to start an activity
+     * @param savedInstanceState: is used to save and recover state information.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,12 +189,19 @@ public class AddPlaceActivity extends AppCompatActivity {
 
     }
 
+    /**
+     *
+     */
     private void removePhoto() {
         photo = null;
         addPhotoView.setImageBitmap(null);
         addPhotoView.setVisibility(View.GONE);
     }
 
+    /**
+     * The btnCameraClicked void is responsable to open the device camera to request a image capture
+     * @param view: responsible for drawing and event handling.
+     */
     public void btnCameraClicked(View view) {
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -195,6 +214,10 @@ public class AddPlaceActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * The btnSaveClicked save all data from editTexts to the table place of Data Base
+     * @param view: responsible for drawing and event handling.
+     */
     public void btnSaveClicked(View view) {
         if(isGpsEnable){
 
@@ -222,6 +245,13 @@ public class AddPlaceActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * The onActivityResult void verify if the REQUEST_IMAGE_CAPTURE is equal to RESULT_OK to add the
+     * photo to the Activity imageView.
+     * @param requestCode: Code to verify whit the result code.
+     * @param resultCode: Expected Result code.
+     * @param data: Intent
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
@@ -250,6 +280,12 @@ public class AddPlaceActivity extends AppCompatActivity {
         return byteArray;
     }
 
+    /**
+     * The onRequestPermissionsResult Request the access of gps localization to the device user.
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
@@ -269,6 +305,11 @@ public class AddPlaceActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * The checkLocationPermission check if all permisons request on onRequestPermissionsResult are
+     * grant.
+     * @return PERMISSION_GRANTED
+     */
     public boolean checkLocationPermission()
     {
         String permission = "android.permission.ACCESS_FINE_LOCATION";
