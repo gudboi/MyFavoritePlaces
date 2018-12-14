@@ -15,4 +15,7 @@
     <string name="delete_place_dialog_message">vsajlgakjbgçskagbksaçjgbkaçsjgbkçasgbskagbaçkss</string>
     <string name="delete_place_afirmative">Confirmar</string>
     <string name="hint_username">Username</string>
+    <string name="toast_wrong_password">Passwor Errada!</string>
+    <string name="toast_user_inexistent">Utilizador não existe!</string>
+    <string name="toast_user_exist">Utilizador já existe!</string>
 </resources>

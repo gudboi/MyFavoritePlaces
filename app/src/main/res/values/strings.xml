@@ -8,13 +8,20 @@
     <string name="btn_login">Login</string>
     <string name="btn_register">Register</string>
     <string name="intro_text">Save your favorite places when you travel</string>
+    <!-- Toasts -->
+    <string name="toast_wrong_password">Wrong password!</string>
+    <string name="toast_user_inexistent">User not exist!</string>
+    <string name="toast_user_exist">User already exist!</string>
+    <string name="toast_user_created">User created!</string>
+    <!-- activity_places.xml -->
     <string name="btn_logout">Logout</string>
     <string name="btn_addPlace">Add Place</string>
+    <!-- activity_add_place.xml -->
+    <string name="add_place_label">Add Place</string>
     <string name="hint_name">Name of place</string>
     <string name="hint_description">Description</string>
     <string name="btn_save">Save</string>
     <string name="places_label">Places</string>
-    <string name="add_place_label">Add Place</string>
     <string name="place_thumbnail">place_thumbnail</string>
     <string name="username_txt">TextView</string>
     <string name="single_place_label">Castelo de Beja</string>
