@@ -36,14 +36,11 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
  *  pressing the add button, and calling the SingularPlaceActivity by pressing in one item.
  */
  public class PlacesActivity extends AppCompatActivity {
-
+    // Data
     private long user_id;
-    //  Views
-    //private TextView usernameText;
+    // Views
     private View addPlaceHint;
-
     private Intent intent;
-
     private LinearLayoutManager linearLayoutManager;
     private RecyclerView placeList;
     private PlaceAdapter placeAdapter;
@@ -59,17 +56,8 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_places);
 
-        //this.usernameText = findViewById(R.id.textView_welcome);
-        //usernameText.setText(username);
-
-        //  Get extras through intent
-        //this.user_id = getIntent().getLongExtra("USER_ID", 0);
-        //this.username = getIntent().getStringExtra("USERNAME");
-
-        //  Get data through preferences
-        //this.username = PreferencesHelper.getPrefs(getApplicationContext()).getString(PreferencesHelper.USERNAME,"");
-        this.user_id = PreferencesHelper.getPrefs(getApplicationContext()).getLong(PreferencesHelper.USERID,0);
-
+        this.user_id = PreferencesHelper.getPrefs(getApplicationContext()).getLong(
+                PreferencesHelper.USERID,0);
     }
 
     /**
@@ -88,9 +76,6 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
 
         List<Place> places = DataBase.getInstance(this).placeDao().getAllPlacesOfUser(this.user_id);
 
-        //boolean sortedAz = PreferencesHelper.getPrefs(getApplicationContext()).getBoolean(PreferencesHelper.SORTING_PREF, true);
-
-        // For now it's cool being hardcoded true because we didn't set the flag sortedAz to false anywhere
         placeAdapter.setData(places,true );
     }
 
@@ -105,13 +90,9 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
      * @param place
      */
     public void btnDeleteClicked(Place place){
-
-
         DataBase.getInstance(this).placeDao().delete(place);
         placeAdapter.remove(place);
         placeAdapter.notifyDataSetChanged();
-        // Ainda por fazer meter a hint quando os places sao zero, nicles, niente, nada, rien
-        //setAddPlaceHintVisible(placeAdapter.getItemCount() == 0);
     }
 
     /** Triggered at Add Place button, moving us to the AddPlaceActivity,
@@ -120,24 +101,6 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
      *
      */
     public void btnAddPlaceClicked(View view){ AddPlaceActivity.start(this, this.user_id);}
-
-    /*private void showDeletePlaceDialog(final Place place) {
-
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle(R.string.delete_place_dialog_title)
-                //  Precisa de ser corrigido
-                //.setMessage(getString(R.string.delete_place_dialog_message, place.getPlace_name()))
-                .setPositiveButton(R.string.delete_place_afirmative, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        btnDeleteClicked(place);
-                    }
-                })
-                .setNegativeButton(android.R.string.cancel, null)
-                .create();
-
-        dialog.show();
-    }*/
 
     /** Triggered clicking an item at the recycleview and opening a new
      * activity called SinglePlaceActivity, passing place data in extras
@@ -157,7 +120,6 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
         intent.putExtra("PLACE_PHOTO", place_photo);
         intent.putExtra("PLACE_LNG", place_lng);
         intent.putExtra("PLACE_LAT", place_lat);
-
 
         startActivity(intent);
     }
