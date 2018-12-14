@@ -63,6 +63,8 @@ public class AddPlaceActivity extends AppCompatActivity {
     static Location lastLocation = null;
     static double distanceInM;
 
+    private boolean isGpsEnable;
+
     // Map related objects
     //private Marker contactMarker = null;
     //private LatLng currentLatLng = null;
@@ -85,6 +87,7 @@ public class AddPlaceActivity extends AppCompatActivity {
         editText_place_description = findViewById(R.id.editText_place_description);
 
         LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+        isGpsEnable = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
         LocationListener locationListener;
 
         locationListener = new LocationListener() {
@@ -139,7 +142,7 @@ public class AddPlaceActivity extends AppCompatActivity {
         bestProvider = Objects.requireNonNull(lm).getBestProvider(criteria, true);
 
 
-        @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(bestProvider);
+        @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
         if (location == null){
             Toast.makeText(getApplicationContext(),"Location Not found",Toast.LENGTH_LONG).show();
@@ -193,21 +196,27 @@ public class AddPlaceActivity extends AppCompatActivity {
     }
 
     public void btnSaveClicked(View view) {
-        this.user_id = PreferencesHelper.getPrefs(getApplicationContext()).getLong(USERID, 0);
-        this.place_name = editText_place_name.getText().toString();
-        this.place_description = editText_place_description.getText().toString();
+        if(isGpsEnable){
 
-        byte[] photoBytes = getBytesFromBitmap(photo);
+            this.user_id = PreferencesHelper.getPrefs(getApplicationContext()).getLong(USERID, 0);
+            this.place_name = editText_place_name.getText().toString();
+            this.place_description = editText_place_description.getText().toString();
 
-        Toast.makeText(this, "Lat: " + latitude + " Lng: " + longitude + "Place:" + place_name, Toast.LENGTH_SHORT).show();
+            byte[] photoBytes = getBytesFromBitmap(photo);
 
-        Place place = new Place(0, this.user_id, this.place_name, this.place_description,
-                this.longitude, this.latitude, photoBytes);
+            Toast.makeText(this, "Lat: " + latitude + " Lng: " + longitude + "Place:" + place_name, Toast.LENGTH_SHORT).show();
 
-        DataBase.getInstance(this).placeDao().insert(place);
+            Place place = new Place(0, this.user_id, this.place_name, this.place_description,
+                    this.longitude, this.latitude, photoBytes);
 
-        finish();
-        //Toast.makeText(this, "Utilizador id:" + this.user_id, Toast.LENGTH_SHORT).show();
+            DataBase.getInstance(this).placeDao().insert(place);
+
+            finish();
+            //Toast.makeText(this, "Utilizador id:" + this.user_id, Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Ligue o GPS para poder submeter um local.", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     @Override
