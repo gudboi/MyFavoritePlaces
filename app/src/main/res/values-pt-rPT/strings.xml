@@ -30,4 +30,8 @@
     <!-- activity_single_place.xml -->
     <string name="btn_seeOnMap">Ver no mapa</string>
     <string name="title_activity_place_on_map">Mapa</string>
+    <string name="location_not_found">Location Not found</string>
+    <string name="give_permission">Dê permissão de localização nas configurações.</string>
+    <string name="gps_toast">Ligue o GPS para poder submeter um local.</string>
+    <string name="add_places_hint">Adicione os seus lugares favoritos.</string>
 </resources>

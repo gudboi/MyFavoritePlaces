@@ -41,10 +41,6 @@ public class AddPlaceActivity extends AppCompatActivity {
     // Request codes
     private static final int REQUEST_IMAGE_CAPTURE = 123;
 
-    // Instance State Bundle keys
-    private static final String LAT_LNG_KEY = "latlng";
-    private static final String PHOTO_BITMAP_KEY = "photoBytes";
-
     // Views
     private ImageView addPhotoView;
     private EditText editText_place_name;
@@ -59,6 +55,7 @@ public class AddPlaceActivity extends AppCompatActivity {
     private Double longitude;
     private String place_name;
     private String place_description;
+    private boolean permissionFlag;
 
     static Location lastLocation = null;
     private boolean isGpsEnable;
@@ -84,10 +81,6 @@ public class AddPlaceActivity extends AppCompatActivity {
         editText_place_name = findViewById(R.id.editText_place_name);
         editText_place_description = findViewById(R.id.editText_place_description);
 
-
-
-
-
     }
 
     @Override
@@ -95,7 +88,8 @@ public class AddPlaceActivity extends AppCompatActivity {
         super.onStart();
 
 
-
+        LocationManager lm = (LocationManager) getApplicationContext().getSystemService(
+                Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -129,11 +123,12 @@ public class AddPlaceActivity extends AppCompatActivity {
         }
 
 
-        LocationManager lm = (LocationManager) getApplicationContext().getSystemService(
-                Context.LOCATION_SERVICE);
 
+
+        /*Here we check again if the GPS is enable ad store it at the same var in case it's on now
+
+        */
         isGpsEnable = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
 
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 1000,10,locationListener);
@@ -142,7 +137,7 @@ public class AddPlaceActivity extends AppCompatActivity {
                 LocationManager.GPS_PROVIDER);
 
         if (location == null){
-            Toast.makeText(getApplicationContext(),"Location Not found",
+            Toast.makeText(getApplicationContext(),R.string.location_not_found,
                     Toast.LENGTH_LONG).show();
         }else{
             geocoder = new Geocoder(getApplicationContext());
@@ -157,7 +152,6 @@ public class AddPlaceActivity extends AppCompatActivity {
         }
 
 
-
         addPhotoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -168,7 +162,7 @@ public class AddPlaceActivity extends AppCompatActivity {
     }
 
     /**
-     * The removePhoto void is responsable to remove the photo from image view passing the photo
+     * The removePhoto void is responsible to remove the photo from image view passing the photo
      * bitmap to null.
      */
     private void removePhoto() {
@@ -178,17 +172,17 @@ public class AddPlaceActivity extends AppCompatActivity {
     }
 
     /**
-     * The btnCameraClicked void is responsable to open the device camera to request a image capture
+     * The btnCameraClicked void is responsible to open the device camera to request a image capture
      * @param view: responsible for drawing and event handling.
      */
     public void btnCameraClicked(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Para verificar que de facto existe uma aplicação que dê conta do nosso pedido
+        // Checks for an app compatible with the action
         if (intent.resolveActivity(getPackageManager()) != null) {
-            // Se sim, lançamos o Intent
+            // The intent is started
             startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
         } else {
-            Toast.makeText(getApplicationContext(),"Location Not found",
+            Toast.makeText(getApplicationContext(),R.string.location_not_found,
                     Toast.LENGTH_LONG).show();
         }
     }
@@ -198,24 +192,31 @@ public class AddPlaceActivity extends AppCompatActivity {
      * @param view: responsible for drawing and event handling.
      */
     public void btnSaveClicked(View view) {
-        if(isGpsEnable=true){
-            this.user_id = PreferencesHelper.getPrefs(getApplicationContext()).getLong(USERID,
-                    0);
-            this.place_name = editText_place_name.getText().toString();
-            this.place_description = editText_place_description.getText().toString();
+        if(isGpsEnable==true){
+            permissionFlag = checkLocationPermission();
+            if (permissionFlag==true) {
+                this.user_id = PreferencesHelper.getPrefs(getApplicationContext()).getLong(USERID,
+                        0);
+                this.place_name = editText_place_name.getText().toString();
+                this.place_description = editText_place_description.getText().toString();
 
-             byte[] photoBytes = getBytesFromBitmap(photo);
+                byte[] photoBytes = getBytesFromBitmap(photo);
 
-            Toast.makeText(this, "Lat: " + latitude + " Lng: " + longitude + "Place:" +
-                    place_name, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Lat: " + latitude + " Lng: " + longitude + "Place:" +
+                        place_name, Toast.LENGTH_SHORT).show();
 
-            Place place = new Place(0, this.user_id, this.place_name, this.place_description,
-                    this.longitude, this.latitude, photoBytes);
+                Place place = new Place(0, this.user_id, this.place_name, this.place_description,
+                        this.longitude, this.latitude, photoBytes);
 
-            DataBase.getInstance(this).placeDao().insert(place);
-            finish();
+                DataBase.getInstance(this).placeDao().insert(place);
+                finish();
+            } else {
+                Toast.makeText(this, R.string.give_permission,
+                        Toast.LENGTH_LONG).show();
+            }
+
         }else{
-            Toast.makeText(this, "Ligue o GPS para poder submeter um local.",
+            Toast.makeText(this, R.string.gps_toast,
                     Toast.LENGTH_LONG).show();
         }
 
@@ -271,7 +272,7 @@ public class AddPlaceActivity extends AppCompatActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 } else {
-                    // permission denied, boo! Disable the
+                    // Disable the
                     // functionality that depends on this permission.
                 }
                 return;
@@ -282,12 +283,11 @@ public class AddPlaceActivity extends AppCompatActivity {
     }
 
     /**
-     * The checkLocationPermission check if all permisons request on onRequestPermissionsResult are
-     * grant.
+     * The checkLocationPermission check if all permissions requests on onRequestPermissionsResult are
+     * granted.
      * @return PERMISSION_GRANTED
      */
-    public boolean checkLocationPermission()
-    {
+    public boolean checkLocationPermission() {
         String permission = "android.permission.ACCESS_FINE_LOCATION";
         int res = this.checkCallingOrSelfPermission(permission);
         return (res == PackageManager.PERMISSION_GRANTED);

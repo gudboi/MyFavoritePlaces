@@ -60,6 +60,8 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
 
         this.user_id = PreferencesHelper.getPrefs(getApplicationContext()).getLong(
                 PreferencesHelper.USERID,0);
+
+        addPlaceHint = findViewById(R.id.textView_noPlaces);
     }
 
     /**
@@ -78,7 +80,15 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
 
         List<Place> places = DataBase.getInstance(this).placeDao().getAllPlacesOfUser(this.user_id);
 
+        /*
+        *   Here we sort the places by using placeAdater setData
+        *
+        */
         placeAdapter.setData(places,true );
+
+        //  Here the visibility of the text hint is activated when the array is zero.
+        setHintVisible(places.size() == 0);
+
     }
 
     /** Triggered at the Logout button closing the activity, and getting back to Login/Reg
@@ -97,10 +107,26 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
         placeAdapter.notifyDataSetChanged();
     }
 
+    /**
+     *  Method to wrap the intent and some extra
+     * @param context
+     * @param id user id to be used at AddPlacesActivity and be
+     *           inserted in db table Places to identify his user
+     */
     public static void start(Context context, long id) {
         Intent starter = new Intent(context, AddPlaceActivity.class);
         starter.putExtra("USER_ID", id);
         context.startActivity(starter);
+    }
+
+    /**
+     *  Setting the textview visible when there is no places at all,
+     *  helping the user to realize that he must add some clicking "ADD"
+     * @param visible
+     */
+    private void setHintVisible(boolean visible) {
+
+        addPlaceHint.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     /** Triggered at Add Place button, moving us to the AddPlaceActivity,
@@ -246,6 +272,9 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
             return data.size();
         }
 
+        /** Remove a Place
+         * @param place
+         */
         private void remove(Place place) {
             int index = data.indexOf(place);
             if(index != -1) {
@@ -254,12 +283,6 @@ import pt.estig.myfavoriteplaces.prefs.PreferencesHelper;
             }
         }
 
-        private void removeAll() {
-            int count = data.size();
-            if(count > 0) {
-                data.clear();
-                notifyItemRangeRemoved(0, count);
-            }
-        }
+
     }
  }

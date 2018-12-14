@@ -36,4 +36,8 @@
     <string name="title_activity_fullscreen" translatable="false">FullscreenActivity</string>
     <string name="dummy_button" translatable="false">Dummy Button</string>
     <string name="dummy_content" translatable="false">DUMMY\nCONTENT</string>
+    <string name="location_not_found">Location Not found</string>
+    <string name="give_permission">Dê permissão de localização nas configurações.</string>
+    <string name="gps_toast">Ligue o GPS para poder submeter um local.</string>
+    <string name="add_places_hint">Adicione os seus lugares favoritos.</string>
 </resources>

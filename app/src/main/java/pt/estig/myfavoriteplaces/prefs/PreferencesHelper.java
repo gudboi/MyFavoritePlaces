@@ -8,10 +8,7 @@ public class PreferencesHelper {
     private static final String PREFS_FILE = "app_prefs";
 
     // Keys
-    public static final String SORTING_PREF = "sorting";
     public static final String FIRST_TIME_PREF = "first_time";
-
-    private static String PLACES_LIST_SORT = "PlaceListSort";
 
     public static String USERID = "userid";
     public static String USERNAME = "username";
@@ -49,14 +46,7 @@ public class PreferencesHelper {
     // -----
 
     public static boolean getFirstTimeRunning(Context context, boolean defValue) {
-        return getBoolean(context, "sdas", defValue);
+        return getBoolean(context, "FIRST_TIME_PREF", defValue);
     }
 
-    public static void setContactListSort(Context context, boolean naturalSorting) {
-        set(context, PLACES_LIST_SORT, naturalSorting);
-    }
-
-    public static boolean getContactListSort(Context context) {
-        return getBoolean(context, PLACES_LIST_SORT, true);
-    }
 }
