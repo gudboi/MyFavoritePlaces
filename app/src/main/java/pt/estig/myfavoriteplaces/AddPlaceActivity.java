@@ -104,7 +104,6 @@ public class AddPlaceActivity extends AppCompatActivity {
                 if (lastLocation == null) {
                     lastLocation = location;
                 }
-                //distanceInM += location.distanceTo((lastLocation));
             }
 
             @Override
@@ -132,7 +131,7 @@ public class AddPlaceActivity extends AppCompatActivity {
         }
 
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                1,1,locationListener);
+                1000,10,locationListener);
 
         Criteria criteria = new Criteria();
 
